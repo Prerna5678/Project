@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Property</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: 'Roboto', Arial, sans-serif; background: #ECECEC; }
+
+/* ── NAV ── */
+nav { background: #0A2A66; padding: 15px 30px; }
+.nav-container { display: flex; align-items: center; justify-content: space-between; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo img { width: 42px; height: 42px; }
+.logo span { color: #fff; font-size: 22px; font-weight: bold; }
+nav a { color: #fff; margin-left: 20px; text-decoration: none; font-size: 16px; font-weight: bold; }
+nav a:hover { color: #4DA3FF; }
+
+/* ── HERO ── */
+.hero {
+    background: linear-gradient(135deg, #0A2A66 0%, #1E90FF 100%);
+    color: #fff; text-align: center; padding: 60px 20px;
+}
+.hero h1 { font-size: 36px; margin: 0 0 10px; }
+.hero p  { font-size: 16px; margin: 0 0 24px; opacity: 0.9; }
+.hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-white { background: #fff; color: #0A2A66; padding: 11px 28px; border-radius: 6px;
+             font-weight: bold; text-decoration: none; font-size: 15px; transition: opacity .2s; }
+.btn-white:hover { opacity: .88; }
+.btn-outline { border: 2px solid #fff; color: #fff; padding: 10px 28px; border-radius: 6px;
+               font-weight: bold; text-decoration: none; font-size: 15px; transition: background .2s; }
+.btn-outline:hover { background: rgba(255,255,255,.12); }
+
+/* ── PAGE WRAP ── */
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 50px 20px 60px; }
+
+/* ── SECTION TITLE ── */
+.sec-title { color: #0A2A66; font-size: 22px; font-weight: bold; margin: 0 0 20px;
+             padding-bottom: 8px; border-bottom: 2px solid #1E90FF; }
+
+/* ── PROPERTY CARDS ── */
+.property-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-bottom: 50px; }
+@media(max-width:900px){ .property-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:600px){ .property-grid { grid-template-columns: 1fr; } }
+
+.prop-card {
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1); overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+    border-top: 3px solid #1E90FF;
+}
+.prop-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+.prop-img { width: 100%; height: 170px; object-fit: cover; background: #dce9ff;
+            display: flex; align-items: center; justify-content: center; font-size: 52px; }
+.prop-body { padding: 18px 20px; }
+.prop-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11.5px; font-weight: 700; margin-bottom: 8px;
+}
+.badge-buy  { background: #e0f0ff; color: #1E90FF; }
+.badge-rent { background: #e8f5e9; color: #2e7d32; }
+.prop-title { color: #0A2A66; font-size: 16px; font-weight: bold; margin: 0 0 5px; }
+.prop-loc   { color: #777; font-size: 13px; margin: 0 0 10px; }
+.prop-price { color: #1E90FF; font-size: 20px; font-weight: bold; margin: 0 0 12px; }
+.prop-tags  { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.ptag { background: #eef3ff; color: #0A2A66; border-radius: 20px;
+        padding: 3px 10px; font-size: 12px; }
+.enquire-btn {
+    display: block; text-align: center; background: #1E90FF; color: #fff;
+    padding: 9px; border-radius: 6px; font-weight: bold; font-size: 14px;
+    text-decoration: none; transition: background .2s;
+}
+.enquire-btn:hover { background: #166FCC; }
+
+/* ── BUYING GUIDE ── */
+.guide-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-bottom: 50px; }
+@media(max-width:900px){ .guide-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:500px){ .guide-grid { grid-template-columns: 1fr; } }
+.guide-card {
+    background: #fff; border-radius: 10px; padding: 22px 18px; text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-bottom: 3px solid #1E90FF;
+}
+.guide-icon { font-size: 32px; margin-bottom: 10px; }
+.guide-card h4 { color: #0A2A66; font-size: 15px; margin: 0 0 6px; }
+.guide-card p  { color: #666; font-size: 13px; line-height: 1.5; margin: 0; }
+
+/* ── AMENITIES ── */
+.amenity-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 50px; }
+@media(max-width:700px){ .amenity-grid { grid-template-columns: repeat(2,1fr); } }
+.amenity-card {
+    background: #fff; border-radius: 10px; padding: 18px 20px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07); border-left: 4px solid #1E90FF;
+}
+.amenity-icon { font-size: 26px; flex-shrink: 0; }
+.amenity-card h5 { color: #0A2A66; font-size: 14px; font-weight: bold; margin: 0 0 3px; }
+.amenity-card p  { color: #666; font-size: 12.5px; margin: 0; line-height: 1.4; }
+
+/* ── ENQUIRY FORM ── */
+.enquiry-section {
+    background: #fff; border-radius: 12px; padding: 36px 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-left: 4px solid #1E90FF;
+    margin-bottom: 10px;
+}
+.enquiry-section h2 { color: #0A2A66; margin: 0 0 6px; font-size: 22px; }
+.enquiry-section .subtitle { color: #777; font-size: 13.5px; margin: 0 0 24px; }
+
+.flash-success { background:#e6f9f0; color:#15803d; border:1px solid #86efac;
+                 border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:14px; }
+.flash-error   { background:#fef2f2; color:#b91c1c; border:1px solid #fca5a5;
+                 border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:14px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+@media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+.form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+@media(max-width:700px){ .form-row.triple { grid-template-columns: 1fr 1fr; } }
+
+.fg label { display: block; font-weight: bold; color: #333; margin-bottom: 5px; font-size: 13.5px; }
+.fg input, .fg select, .fg textarea {
+    width: 100%; padding: 9px 10px; border-radius: 6px;
+    border: 1px solid #ccc; font-size: 14px; font-family: inherit;
+    transition: border-color .2s; resize: vertical;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+    outline: none; border-color: #1E90FF;
+    box-shadow: 0 0 0 2px rgba(30,144,255,.12);
+}
+
+.amenities-check { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+@media(max-width:700px){ .amenities-check { grid-template-columns: repeat(2,1fr); } }
+.check-item { display: flex; align-items: center; gap: 7px; font-size: 13.5px; color: #333; }
+.check-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #1E90FF; }
+
+.submit-btn {
+    width: 100%; padding: 13px; background: #1E90FF; color: #fff; border: none;
+    border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
+    margin-top: 8px; transition: background .2s;
+}
+.submit-btn:hover { background: #166FCC; }
+
+/* ── FOOTER ── */
+.footer { background: #0A2A66; padding: 50px 60px; color: #F1F5FF; margin-top: 20px; }
+.footer-container { display: grid; grid-template-columns: repeat(4,1fr); gap: 35px; }
+.footer h4 { color: #fff; margin-bottom: 18px; font-size: 18px; }
+.footer p  { margin: 6px 0; font-size: 15px; line-height: 1.7; color: #F1F5FF; }
+.footer a  { display: block; color: #D6E0F5; text-decoration: none; margin-bottom: 10px; font-size: 15px; }
+.footer a:hover { color: #4DA3FF; }
+.social-icons { display: flex; gap: 15px; }
+.social-icons img { width: 28px; height: 28px; border-radius: 6px; cursor: pointer; }
+.footer-bottom { background: #081F4D; color: #fff; text-align: center; padding: 12px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+    <div class="nav-container">
+        <div class="logo">
+            <span>HomePriceAI</span>
+        </div>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('property_page') }}">Property</a>
+            <a href="{{ url_for('how_it_works') }}">How It Works</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ── HERO ── -->
+
+
+<div class="page-wrap">
+
+    <!-- ── BUYING GUIDE ── -->
+    <h2 class="sec-title">🛒 How Buying Works</h2>
+    <div class="guide-grid">
+        <div class="guide-card">
+            <div class="guide-icon">🔍</div>
+            <h4>1. Browse Listings</h4>
+            <p>Explore verified properties filtered by city, budget, and BHK requirements.</p>
+        </div>
+        <div class="guide-card">
+            <div class="guide-icon">📩</div>
+            <h4>2. Submit Enquiry</h4>
+            <p>Fill the enquiry form with your requirements. Our team gets back in 24 hours.</p>
+        </div>
+        <div class="guide-card">
+            <div class="guide-icon">🤝</div>
+            <h4>3. Site Visit</h4>
+            <p>Schedule a physical or virtual site visit with our property consultant.</p>
+        </div>
+        <div class="guide-card">
+            <div class="guide-icon">🔑</div>
+            <h4>4. Close the Deal</h4>
+            <p>Finalize paperwork, legal checks, and registration — we guide you every step.</p>
+        </div>
+    </div>
+
+    <!-- ── PROPERTY LISTINGS ── -->
+    <h2 class="sec-title" id="listings">🏠 Featured Listings</h2>
+    <div class="property-grid">
+
+        <div class="prop-card">
+            <div class="prop-img">🏘</div>
+            <div class="prop-body">
+                <span class="prop-badge badge-buy">For Sale</span>
+                <p class="prop-title">Luxury 3 BHK Apartment</p>
+                <p class="prop-loc">📍 Whitefield, Bangalore</p>
+                <p class="prop-price">₹85,00,000</p>
+                <div class="prop-tags">
+                    <span class="ptag">🛏 3 BHK</span><span class="ptag">🚿 2 Bath</span>
+                    <span class="ptag">📐 1,400 sq.ft</span><span class="ptag">🚗 1 Parking</span>
+                    <span class="ptag">❄️ AC</span><span class="ptag">🛋 Furnished</span>
+                </div>
+                <a href="#enquiry" class="enquire-btn" onclick="prefill('3 BHK Apartment, Whitefield Bangalore')">📩 Enquire Now</a>
+            </div>
+        </div>
+
+        <div class="prop-card">
+            <div class="prop-img">🏡</div>
+            <div class="prop-body">
+                <span class="prop-badge badge-buy">For Sale</span>
+                <p class="prop-title">Independent Villa</p>
+                <p class="prop-loc">📍 Baner, Pune</p>
+                <p class="prop-price">₹1,20,00,000</p>
+                <div class="prop-tags">
+                    <span class="ptag">🛏 4 BHK</span><span class="ptag">🚿 3 Bath</span>
+                    <span class="ptag">📐 2,200 sq.ft</span><span class="ptag">🚗 2 Parking</span>
+                    <span class="ptag">🏗 Basement</span><span class="ptag">🏠 Guest Room</span>
+                </div>
+                <a href="#enquiry" class="enquire-btn" onclick="prefill('4 BHK Villa, Baner Pune')">📩 Enquire Now</a>
+            </div>
+        </div>
+
+        <div class="prop-card">
+            <div class="prop-img">🏢</div>
+            <div class="prop-body">
+                <span class="prop-badge badge-buy">For Sale</span>
+                <p class="prop-title">Premium 2 BHK Flat</p>
+                <p class="prop-loc">📍 Andheri West, Mumbai</p>
+                <p class="prop-price">₹1,45,00,000</p>
+                <div class="prop-tags">
+                    <span class="ptag">🛏 2 BHK</span><span class="ptag">🚿 2 Bath</span>
+                    <span class="ptag">📐 1,050 sq.ft</span><span class="ptag">❄️ AC</span>
+                    <span class="ptag">🚗 1 Parking</span><span class="ptag">🛋 Semi-Furnished</span>
+                </div>
+                <a href="#enquiry" class="enquire-btn" onclick="prefill('2 BHK Flat, Andheri West Mumbai')">📩 Enquire Now</a>
+            </div>
+        </div>
+
+        <div class="prop-card">
+            <div class="prop-img">🏠</div>
+            <div class="prop-body">
+                <span class="prop-badge badge-buy">For Sale</span>
+                <p class="prop-title">Modern 3 BHK Apartment</p>
+                <p class="prop-loc">📍 Vastrapur, Ahmedabad</p>
+                <p class="prop-price">₹65,00,000</p>
+                <div class="prop-tags">
+                    <span class="ptag">🛏 3 BHK</span><span class="ptag">🚿 2 Bath</span>
+                    <span class="ptag">📐 1,300 sq.ft</span><span class="ptag">❄️ AC</span>
+                    <span class="ptag">🚗 1 Parking</span><span class="ptag">🛋 Unfurnished</span>
+                </div>
+                <a href="#enquiry" class="enquire-btn" onclick="prefill('3 BHK Apartment, Vastrapur Ahmedabad')">📩 Enquire Now</a>
+            </div>
+        </div>
+
+        <div class="prop-card">
+            <div class="prop-img">🌆</div>
+            <div class="prop-body">
+                <span class="prop-badge badge-buy">For Sale</span>
+                <p class="prop-title">Spacious 4 BHK Penthouse</p>
+                <p class="prop-loc">📍 Jubilee Hills, Hyderabad</p>
+                <p class="prop-price">₹2,20,00,000</p>
+                <div class="prop-tags">
+                    <span class="ptag">🛏 4 BHK</span><span class="ptag">🚿 4 Bath</span>
+                    <span class="ptag">📐 3,000 sq.ft</span><span class="ptag">❄️ AC</span>
+                    <span class="ptag">🚗 3 Parking</span><span class="ptag">🛋 Furnished</span>
+                </div>
+                <a href="#enquiry" class="enquire-btn" onclick="prefill('4 BHK Penthouse, Jubilee Hills Hyderabad')">📩 Enquire Now</a>
+            </div>
+        </div>
+
+        <div class="prop-card">
+            <div class="prop-img">🏛</div>
+            <div class="prop-body">
+                <span class="prop-badge badge-buy">For Sale</span>
+                <p class="prop-title">Budget 2 BHK Apartment</p>
+                <p class="prop-loc">📍 Mansarovar, Jaipur</p>
+                <p class="prop-price">₹38,00,000</p>
+                <div class="prop-tags">
+                    <span class="ptag">🛏 2 BHK</span><span class="ptag">🚿 2 Bath</span>
+                    <span class="ptag">📐 950 sq.ft</span><span class="ptag">🚗 1 Parking</span>
+                    <span class="ptag">🛋 Semi-Furnished</span>
+                </div>
+                <a href="#enquiry" class="enquire-btn" onclick="prefill('2 BHK Apartment, Mansarovar Jaipur')">📩 Enquire Now</a>
+            </div>
+        </div>
+
+    </div>
+    <!-- ── ENQUIRY FORM ── -->
+    <div class="enquiry-section" id="enquiry">
+        <h2>📩 Property Buying Enquiry</h2>
+        <p class="subtitle">Fill in your requirements and our property advisor will reach out within 24 hours.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('property_enquiry') }}">
+
+            <div class="form-row triple">
+                <div class="fg">
+                    <label>Your Name *</label>
+                    <input type="text" name="name" placeholder="e.g. Rahul Sharma" required>
+                </div>
+                <div class="fg">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" placeholder="you@example.com" required>
+                </div>
+                <div class="fg">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="phone" placeholder="+91 98765 43210" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="fg">
+                    <label>Property Type *</label>
+                    <select name="property_type" required>
+                        <option value="">Select Type</option>
+                        <option value="Apartment">Apartment / Flat</option>
+                        <option value="Independent House">Independent House</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Penthouse">Penthouse</option>
+                        <option value="Plot">Plot / Land</option>
+                        <option value="Commercial">Commercial Space</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>Preferred City *</label>
+                    <select name="city" required>
+                        <option value="">Select City</option>
+                        <option>Ahmedabad</option><option>Bangalore</option><option>Bhopal</option>
+                        <option>Chennai</option><option>Coimbatore</option><option>Delhi</option>
+                        <option>Hyderabad</option><option>Indore</option><option>Jaipur</option>
+                        <option>Kanpur</option><option>Kochi</option><option>Kolkata</option>
+                        <option>Lucknow</option><option>Mumbai</option><option>Nagpur</option>
+                        <option>Patna</option><option>Pune</option><option>Surat</option>
+                        <option>Vadodara</option><option>Visakhapatnam</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="fg">
+                    <label>Budget Range *</label>
+                    <select name="budget" required>
+                        <option value="">Select Budget</option>
+                        <option value="Under 30L">Under ₹30 Lakh</option>
+                        <option value="30L-60L">₹30L – ₹60L</option>
+                        <option value="60L-1Cr">₹60L – ₹1 Crore</option>
+                        <option value="1Cr-2Cr">₹1 Crore – ₹2 Crore</option>
+                        <option value="2Cr-5Cr">₹2 Crore – ₹5 Crore</option>
+                        <option value="Above 5Cr">Above ₹5 Crore</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>BHK Requirement</label>
+                    <select name="bedrooms">
+                        <option value="">Any</option>
+                        <option value="1">1 BHK</option>
+                        <option value="2">2 BHK</option>
+                        <option value="3">3 BHK</option>
+                        <option value="4">4 BHK</option>
+                        <option value="5+">5+ BHK</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="fg" style="margin-bottom:14px;">
+                <label>Preferred Amenities</label>
+                <div class="amenities-check">
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Air Conditioning"> ❄️ AC</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Parking"> 🚗 Parking</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Guest Room"> 🏠 Guest Room</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Basement"> 🏗 Basement</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Swimming Pool"> 🏊 Pool</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Gym"> 🏋️ Gym</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Security"> 🔒 Security</label>
+                    <label class="check-item"><input type="checkbox" name="amenities" value="Garden"> 🌿 Garden</label>
+                </div>
+            </div>
+
+            <div class="fg" style="margin-bottom:16px;">
+                <label>Additional Message</label>
+                <textarea name="message" rows="4"
+                    id="enquiry-message"
+                    placeholder="Any specific requirements, preferred localities, timeline, or questions..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">📩 Submit Enquiry</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+function prefill(propertyName) {
+    const msg = document.getElementById('enquiry-message');
+    if (msg) msg.value = 'I am interested in: ' + propertyName + '. Please send me more details.';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>How It Works</title>
+<style>
+body { margin:0; font-family:'Roboto',Arial,sans-serif; background:#ECECEC; }
+nav { background:#0A2A66; padding:15px 30px; }
+.nav-container { display:flex; align-items:center; justify-content:space-between; }
+.logo { display:flex; align-items:center; gap:10px; }
+.logo img { width:42px; height:42px; }
+.logo span { color:#fff; font-size:22px; font-weight:bold; }
+nav a { color:#fff; margin-left:20px; text-decoration:none; font-size:16px; font-weight:bold; }
+nav a:hover { color:#4DA3FF; }
+.login-notice {
+    background:#fff3cd; border:1px solid #ffc107; color:#856404;
+    text-align:center; padding:12px 20px; font-size:14px; font-weight:500;
+}
+.login-notice a { color:#0A2A66; font-weight:bold; }
+
+/* ── CHOICE OVERLAY ── */
+.choice-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.6);
+    z-index:999; display:flex; align-items:center; justify-content:center;
+}
+.choice-box {
+    background:#fff; border-radius:16px; padding:44px 40px;
+    max-width:500px; width:90%; text-align:center;
+    box-shadow:0 24px 60px rgba(0,0,0,0.3);
+    animation:popIn .25s ease;
+}
+@keyframes popIn { from{transform:scale(.92);opacity:0} to{transform:scale(1);opacity:1} }
+.choice-box h2 { color:#0A2A66; font-size:21px; margin:0 0 8px; }
+.choice-box p  { color:#777; font-size:14px; margin:0 0 32px; line-height:1.6; }
+.choice-btns   { display:flex; gap:16px; justify-content:center; }
+.choice-btn {
+    flex:1; padding:18px 12px; border-radius:12px; cursor:pointer;
+    border:2px solid #1E90FF; font-family:inherit;
+    font-size:15px; font-weight:700; transition:all .2s;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.choice-btn .ico { font-size:32px; }
+.choice-btn.primary { background:#1E90FF; color:#fff; }
+.choice-btn.primary:hover { background:#166FCC; border-color:#166FCC; }
+.choice-btn.secondary { background:#fff; color:#0A2A66; }
+.choice-btn.secondary:hover { background:#eef3ff; }
+
+/* ── MAIN FORM ── */
+.form-container {
+    width:620px; margin:30px auto 50px; background:#fff;
+    padding:35px 40px; border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15),0 4px 10px rgba(30,144,255,.15);
+    border-left:4px solid #1E90FF;
+}
+.form-container h2 { text-align:center; color:#0A2A66; margin-bottom:4px; }
+.form-subtitle { text-align:center; color:#777; font-size:13.5px; margin-bottom:26px; }
+.section-divider {
+    font-size:12.5px; font-weight:bold; color:#1E90FF; text-transform:uppercase;
+    letter-spacing:.6px; margin:20px 0 10px; padding-bottom:5px;
+    border-bottom:1.5px solid #dce9ff;
+}
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-group { margin-bottom:4px; }
+.form-group label { display:block; font-weight:bold; color:#333; margin-bottom:5px; font-size:13.5px; }
+.form-group input, .form-group select {
+    width:100%; padding:9px 10px; border-radius:6px; border:1px solid #ccc;
+    font-size:14px; box-sizing:border-box; transition:border-color .2s;
+}
+.form-group input:focus, .form-group select:focus {
+    outline:none; border-color:#1E90FF; box-shadow:0 0 0 2px rgba(30,144,255,.12);
+}
+.form-group input[readonly] { background:#eef3ff; color:#0A2A66; font-weight:600; cursor:not-allowed; }
+.predict-btn {
+    width:100%; padding:12px; background:#1E90FF; color:#fff; border:none;
+    border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer;
+    margin-top:18px; transition:background .2s;
+}
+.predict-btn:hover { background:#166FCC; }
+
+/* ── FOOTER ── */
+.footer { background:#0A2A66; padding:50px 60px; color:#F1F5FF; margin-top:60px; }
+.footer-container { display:grid; grid-template-columns:repeat(4,1fr); gap:35px; }
+.footer h4 { color:#fff; margin-bottom:18px; font-size:18px; }
+.footer p  { margin:6px 0; font-size:15px; line-height:1.7; color:#F1F5FF; }
+.footer a  { display:block; color:#D6E0F5; text-decoration:none; margin-bottom:10px; font-size:15px; }
+.footer a:hover { color:#4DA3FF; }
+.social-icons { display:flex; gap:15px; }
+.social-icons img { width:28px; height:28px; border-radius:6px; cursor:pointer; }
+.footer-bottom { background:#081F4D; color:#fff; text-align:center; padding:12px; font-size:14px; }
+
+/* ── TOAST ── */
+.toast {
+    position:fixed; top:24px; left:50%;
+    transform:translateX(-50%) translateY(-20px);
+    background:#fff; border-radius:10px; padding:14px 24px 14px 18px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+    display:flex; align-items:center; gap:12px;
+    font-size:15px; font-weight:600; z-index:9999;
+    opacity:0; transition:opacity 0.35s ease, transform 0.35s ease;
+    min-width:280px; max-width:480px; pointer-events:none;
+}
+.toast.success { border-left:4px solid #16a34a; color:#15803d; background:#f0fdf4; }
+.toast.error   { border-left:4px solid #dc2626; color:#b91c1c; background:#fef2f2; }
+.toast.show    { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<nav>
+    <div class="nav-container">
+        <div class="logo">
+            <span>HomePriceAI</span>
+        </div>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('property_page') }}">Property</a>
+            <a href="{{ url_for('how_it_works') }}">How It Works</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            {% if session.user_id %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+            <a href="{{ url_for('register') }}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+{% if not session.user_id %}
+<div class="login-notice">
+    You must be <a href="{{ url_for('login') }}">logged in</a> to use the price prediction tool.
+    Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.
+</div>
+{% endif %}
+
+<div class="form-container">
+    <h2>🏠 House Price Prediction</h2>
+    <p class="form-subtitle">Fill in the details below and click Predict Price.</p>
+    <form method="POST" action="{{ url_for('predict') }}">
+        <div class="section-divider">Property Details</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Area (sq. ft.)</label>
+                <input type="number" name="area" placeholder="e.g. 1500" min="100" required>
+            </div>
+            <div class="form-group">
+                <label>Bedrooms (BHK)</label>
+                <select name="bedrooms" required>
+                    <option value="">Select</option>
+                    <option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option>
+                    <option value="5">5</option><option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Bathrooms</label>
+                <select name="bathrooms" required>
+                    <option value="">Select</option>
+                    <option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Parking Spots</label>
+                <select name="parking" required>
+                    <option value="">Select</option>
+                    <option value="0">0</option><option value="1">1</option>
+                    <option value="2">2</option><option value="3">3</option>
+                </select>
+            </div>
+        </div>
+        <div class="section-divider">Amenities</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Guest Room</label>
+                <select name="guestroom" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option><option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Basement</label>
+                <select name="basement" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option><option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Air Conditioning</label>
+                <select name="airconditioning" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option><option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Furnishing Status</label>
+                <select name="furnishingstatus" required>
+                    <option value="">Select</option>
+                    <option value="furnished">Furnished</option>
+                    <option value="semi-furnished">Semi-Furnished</option>
+                    <option value="unfurnished">Unfurnished</option>
+                </select>
+            </div>
+        </div>
+        <div class="section-divider">Location</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>City</label>
+                <select name="city" id="citySelect" required onchange="autoFillState()">
+                    <option value="">Select City</option>
+                    <option>Ahmedabad</option><option>Bangalore</option><option>Bhopal</option>
+                    <option>Chennai</option><option>Coimbatore</option><option>Delhi</option>
+                    <option>Hyderabad</option><option>Indore</option><option>Jaipur</option>
+                    <option>Kanpur</option><option>Kochi</option><option>Kolkata</option>
+                    <option>Lucknow</option><option>Mumbai</option><option>Nagpur</option>
+                    <option>Patna</option><option>Pune</option><option>Surat</option>
+                    <option>Vadodara</option><option>Visakhapatnam</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>State (auto-filled)</label>
+                <input type="text" name="state" id="stateInput" placeholder="Select city first" readonly>
+            </div>
+        </div>
+        <button type="submit" class="predict-btn">🔍 Predict Price</button>
+    </form>
+</div>
+<div class="toast" id="toast">
+    <span id="toast-icon"></span>
+    <span id="toast-msg"></span>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+
+/* ── City → State ── */
+var cityStateMap = {
+    "Ahmedabad":"Gujarat","Bangalore":"Karnataka","Bhopal":"Madhya Pradesh",
+    "Chennai":"Tamil Nadu","Coimbatore":"Tamil Nadu","Delhi":"Delhi",
+    "Hyderabad":"Telangana","Indore":"Madhya Pradesh","Jaipur":"Rajasthan",
+    "Kanpur":"Uttar Pradesh","Kochi":"Kerala","Kolkata":"West Bengal",
+    "Lucknow":"Uttar Pradesh","Mumbai":"Maharashtra","Nagpur":"Maharashtra",
+    "Patna":"Bihar","Pune":"Maharashtra","Surat":"Gujarat",
+    "Vadodara":"Gujarat","Visakhapatnam":"Andhra Pradesh"
+};
+function autoFillState() {
+    var city = document.getElementById('citySelect').value;
+    document.getElementById('stateInput').value = cityStateMap[city] || '';
+}
+
+/* ── Toast ── */
+function showToast(message, type) {
+    var toast = document.getElementById('toast');
+    toast.className = 'toast ' + type + ' show';
+    document.getElementById('toast-icon').textContent = type === 'success' ? '✅' : '❌';
+    document.getElementById('toast-msg').textContent = message;
+    setTimeout(function() { toast.classList.remove('show'); }, 4000);
+}
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script type="application/json" id="flash-messages">{{ messages | tojson }}</script>
+<script>
+var _flashMessages = JSON.parse(document.getElementById('flash-messages').textContent);
+window.addEventListener('DOMContentLoaded', function() {
+    _flashMessages.forEach(function(item) {
+        showToast(item[1], item[0]);
+    });
+});
+</script>
+{% endif %}
+{% endwith %}
+
+</body>
+</html>

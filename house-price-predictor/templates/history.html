@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Prediction History — PropValuate{% endblock %}
+
+{% block head %}
+<style>
+  .history-page { padding: 48px 0 80px; }
+  .page-header { margin-bottom: 32px; }
+  .page-header h2 { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--text); }
+  .page-header p  { color:var(--muted); font-size:.9rem; margin-top:6px; }
+
+  .history-table {
+    width:100%; border-collapse:collapse;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .history-table thead tr {
+    background:var(--surface2);
+    border-bottom:1px solid var(--border);
+  }
+  .history-table th {
+    padding:13px 18px; text-align:left;
+    font-size:.72rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:1.2px;
+    color:var(--muted);
+  }
+  .history-table td {
+    padding:14px 18px; font-size:.88rem;
+    border-bottom:1px solid rgba(35,45,66,.7);
+    color:var(--text);
+  }
+  .history-table tr:last-child td { border-bottom:none; }
+  .history-table tr:hover td { background:rgba(255,255,255,.02); }
+  .price-cell { font-weight:600; color:var(--gold); font-size:.95rem; }
+
+  .empty-state {
+    text-align:center; padding:80px 20px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius);
+  }
+  .empty-state .icon { font-size:3rem; margin-bottom:16px; }
+  .empty-state h3 { font-family:'Playfair Display',serif; color:var(--text); margin-bottom:8px; }
+  .empty-state p  { color:var(--muted); font-size:.9rem; margin-bottom:24px; }
+
+  .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .record-count { font-size:.85rem; color:var(--muted); }
+  .clear-link { font-size:.8rem; color:var(--danger); text-decoration:none; }
+  .clear-link:hover { text-decoration:underline; }
+
+  @media(max-width:700px){
+    .history-table { display:block; overflow-x:auto; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="history-page">
+  <div class="container">
+    <div class="page-header fade-up">
+      <h2>Prediction History</h2>
+      <p>Your last {{ records|length }} price predictions (stored in session)</p>
+    </div>
+
+    {% if records %}
+    <div class="top-bar fade-up-2">
+      <span class="record-count">{{ records|length }} record(s)</span>
+      <a href="/clear-history" class="clear-link">Clear history</a>
+    </div>
+    <table class="history-table fade-up-2">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Time</th>
+          <th>Predicted Price</th>
+          <th>Area (sq ft)</th>
+          <th>Beds</th>
+          <th>Baths</th>
+          <th>Parking</th>
+          <th>Furnishing</th>
+          <th>AC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td style="color:var(--muted)">{{ loop.index }}</td>
+          <td style="color:var(--muted);font-size:.8rem">{{ r.time }}</td>
+          <td class="price-cell">{{ r.price }}</td>
+          <td>{{ r.area }}</td>
+          <td>{{ r.bedrooms }}</td>
+          <td>{{ r.bathrooms }}</td>
+          <td>{{ r.parking }}</td>
+          <td style="text-transform:capitalize">{{ r.furnishingstatus }}</td>
+          <td>{{ r.airconditioning }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% else %}
+    <div class="empty-state fade-up">
+      <div class="icon">📋</div>
+      <h3>No predictions yet</h3>
+      <p>Make your first prediction to see it appear here.</p>
+      <a href="/" class="btn btn-primary" style="display:inline-flex;width:auto">Make a Prediction →</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

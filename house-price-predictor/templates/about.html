@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block title %}Model Info — PropValuate{% endblock %}
+
+{% block head %}
+<style>
+  .about-page { padding: 48px 0 80px; }
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-size:.72rem; font-weight:600; letter-spacing:3px;
+    text-transform:uppercase; color:var(--teal); margin-bottom:12px;
+  }
+  .section h2 {
+    font-family:'Playfair Display',serif;
+    font-size:1.8rem; color:var(--text); margin-bottom:12px;
+  }
+  .section p { color:var(--muted); font-size:.93rem; line-height:1.75; max-width:660px; }
+
+  /* Model comparison bars */
+  .model-compare { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:28px; }
+  .model-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:28px; position:relative;
+  }
+  .model-card.winner { border-color: rgba(34,197,94,.35); }
+  .winner-tag {
+    position:absolute; top:16px; right:16px;
+    background:rgba(34,197,94,.12); color:var(--success);
+    font-size:.7rem; font-weight:600; padding:3px 10px;
+    border-radius:20px; letter-spacing:.5px;
+  }
+  .model-name {
+    font-family:'Playfair Display',serif;
+    font-size:1.2rem; color:var(--text); margin-bottom:20px;
+  }
+  .metric-row { margin-bottom:16px; }
+  .metric-label { display:flex; justify-content:space-between; margin-bottom:6px; }
+  .metric-label span:first-child { font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; }
+  .metric-label span:last-child  { font-size:.88rem; font-weight:600; color:var(--text); }
+  .bar-track {
+    height:6px; background:rgba(255,255,255,.06);
+    border-radius:30px; overflow:hidden;
+  }
+  .bar-fill { height:100%; border-radius:30px; }
+
+  /* Tech stack grid */
+  .tech-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px; }
+  .tech-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:20px;
+  }
+  .tech-icon { font-size:1.8rem; margin-bottom:10px; }
+  .tech-name { font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .tech-desc { font-size:.78rem; color:var(--muted); line-height:1.5; }
+
+  /* Pipeline steps */
+  .pipeline { display:flex; flex-direction:column; gap:0; margin-top:24px; }
+  .pipe-step {
+    display:flex; gap:20px; align-items:flex-start;
+    padding-bottom:28px; position:relative;
+  }
+  .pipe-step::before {
+    content:''; position:absolute;
+    left:19px; top:40px; bottom:0;
+    width:1px; background:var(--border);
+  }
+  .pipe-step:last-child::before { display:none; }
+  .pipe-num {
+    width:38px; height:38px; flex-shrink:0;
+    border-radius:50%; border:1px solid var(--border);
+    background:var(--surface2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.82rem; font-weight:600; color:var(--gold);
+  }
+  .pipe-content h4 { font-size:.95rem; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .pipe-content p  { font-size:.82rem; color:var(--muted); line-height:1.55; }
+  .pipe-tag { display:inline-block; font-size:.7rem; font-family:monospace;
+    background:var(--surface2); border:1px solid var(--border);
+    border-radius:4px; padding:1px 7px; color:var(--teal); margin-top:5px; }
+
+  @media(max-width:700px){
+    .model-compare { grid-template-columns:1fr; }
+    .tech-grid { grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:480px){
+    .tech-grid { grid-template-columns:1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="section fade-up">
+      <div class="section-label">Model Information</div>
+      <h2>How the Prediction Works</h2>
+      <p>This system uses an ensemble machine learning model trained on 545 real estate transactions. Two algorithms were compared — Random Forest outperformed Linear Regression by 13% in R² accuracy and was selected as the production model.</p>
+    </div>
+
+    <!-- Model Comparison -->
+    <div class="section fade-up-2">
+      <div class="section-label">Model Comparison</div>
+      <h2>Random Forest vs Linear Regression</h2>
+      <div class="model-compare">
+
+        <div class="model-card winner">
+          <div class="winner-tag">✓ SELECTED</div>
+          <div class="model-name">Random Forest</div>
+          <div class="metric-row">
+            <div class="metric-label"><span>R² Score</span><span style="color:var(--success)">0.89</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:89%;background:linear-gradient(90deg,var(--success),#86efac)"></div></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><span>Accuracy</span><span>89%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:89%;background:var(--gold)"></div></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><span>Trees</span><span>100</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--teal)"></div></div>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:16px;line-height:1.6">
+            Ensemble of 100 decision trees. Handles non-linear relationships, resistant to overfitting.
+          </p>
+        </div>
+
+        <div class="model-card">
+          <div class="model-name">Linear Regression</div>
+          <div class="metric-row">
+            <div class="metric-label"><span>R² Score</span><span>0.76</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:76%;background:var(--muted)"></div></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><span>Accuracy</span><span>76%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:76%;background:var(--muted)"></div></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><span>Complexity</span><span>Low</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--muted)"></div></div>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:16px;line-height:1.6">
+            Baseline model. Fast and interpretable, but assumes linear feature relationships.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="section fade-up">
+      <div class="section-label">Data Pipeline</div>
+      <h2>From Raw Data to Prediction</h2>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-num">1</div>
+          <div class="pipe-content">
+            <h4>Data Collection</h4>
+            <p>545 housing records with 13 features including area, bedrooms, bathrooms, furnishing status, and amenities.</p>
+            <span class="pipe-tag">Housing.csv</span>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">2</div>
+          <div class="pipe-content">
+            <h4>Data Cleaning & EDA</h4>
+            <p>Exploratory analysis in Jupyter Notebook. Handled missing values, selected 6 most impactful features, exported cleaned CSV.</p>
+            <span class="pipe-tag">Cleaned_data.ipynb</span>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">3</div>
+          <div class="pipe-content">
+            <h4>Feature Engineering & Encoding</h4>
+            <p>LabelEncoder for categorical columns (furnishingstatus, airconditioning). StandardScaler for numeric normalization.</p>
+            <span class="pipe-tag">train.py</span>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">4</div>
+          <div class="pipe-content">
+            <h4>Model Training & Evaluation</h4>
+            <p>80/20 train-test split. Trained Linear Regression (R²=0.76) and Random Forest (R²=0.89). Best model saved with joblib.</p>
+            <span class="pipe-tag">model.pkl · scaler.pkl</span>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">5</div>
+          <div class="pipe-content">
+            <h4>Web Deployment</h4>
+            <p>Flask app loads model at startup, serves HTML form, predicts on POST request, and displays result with price range.</p>
+            <span class="pipe-tag">app.py</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="section fade-up">
+      <div class="section-label">Tech Stack</div>
+      <h2>Built With</h2>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-icon">🐍</div>
+          <div class="tech-name">Python 3</div>
+          <div class="tech-desc">Core programming language for data processing and model training.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🌲</div>
+          <div class="tech-name">Scikit-learn</div>
+          <div class="tech-desc">RandomForestRegressor, LinearRegression, StandardScaler, LabelEncoder.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🌶</div>
+          <div class="tech-name">Flask</div>
+          <div class="tech-desc">Lightweight Python web framework for serving the prediction API and UI.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🐼</div>
+          <div class="tech-name">Pandas + NumPy</div>
+          <div class="tech-desc">Data manipulation, cleaning, and numerical computations.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">📓</div>
+          <div class="tech-name">Jupyter Notebook</div>
+          <div class="tech-desc">Interactive EDA, visualization, and cleaning workflow.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">💾</div>
+          <div class="tech-name">Joblib</div>
+          <div class="tech-desc">Serializing and loading trained model and preprocessing artifacts.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

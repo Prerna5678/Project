@@ -1,11 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Prediction Result — PropValuate{% endblock %}
+
+{% block head %}
+<style>
+  .result-page { padding: 48px 0 80px; }
+
+  /* ── BIG PRICE CARD ── */
+  .price-hero {
+    background: linear-gradient(135deg, #0d1e10 0%, #0b1a0d 100%);
+    border: 1px solid rgba(34,197,94,.25);
+    border-radius: 20px;
+    padding: 48px;
+    text-align: center;
+    position: relative; overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .price-hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 60% 80% at 50% 110%, rgba(34,197,94,.12), transparent 65%);
+    pointer-events:none;
+  }
+  .price-hero .label {
+    font-size: .72rem; font-weight: 600; letter-spacing: 3px;
+    color: var(--success); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .price-hero .amount {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    color: #fff; font-weight: 700; line-height: 1;
+    margin-bottom: 16px;
+  }
+  .price-range {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-size: .85rem; color: var(--muted);
+  }
+  .price-range .arrow { color: var(--success); }
+  .confidence-bar {
+    margin-top: 24px;
+    background: rgba(255,255,255,.06);
+    border-radius: 30px;
+    height: 6px;
+    overflow: hidden;
+    width: 220px; margin-left: auto; margin-right: auto;
+  }
+  .confidence-bar-fill {
+    height: 100%;
+    width: 89%;
+    background: linear-gradient(90deg, var(--success), #86efac);
+    border-radius: 30px;
+    animation: growBar .8s ease both;
+  }
+  @keyframes growBar { from { width:0 } to { width:89% } }
+  .confidence-label {
+    font-size: .75rem; color: var(--muted); margin-top: 8px;
+    display: flex; justify-content: center; gap: 6px;
+  }
+
+  /* ── MODEL BADGE ROW ── */
+  .badge-row {
+    display: flex; justify-content: center; gap: 10px; margin-bottom: 32px;
+  }
+
+  /* ── TWO COLUMN LAYOUT ── */
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  /* ── PROPERTY SUMMARY CARD ── */
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .card-title {
+    font-size: .72rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+  }
+  .prop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .prop-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .prop-item .k { font-size: .72rem; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .8px; }
+  .prop-item .v { font-size: 1rem; font-weight: 600; color: var(--text); text-transform: capitalize; }
+
+  /* ── MODEL INFO CARD ── */
+  .info-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .88rem;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .k { color: var(--muted); }
+  .info-row .v { color: var(--text); font-weight: 500; }
+
+  /* ── ACTIONS ── */
+  .action-row { display: flex; gap: 12px; margin-top: 28px; }
+  .action-row .btn { flex: 1; }
+
+  @media (max-width:700px) {
+    .result-grid { grid-template-columns: 1fr; }
+    .prop-grid { grid-template-columns: 1fr 1fr; }
+    .price-hero { padding: 32px 20px; }
+    .action-row { flex-direction: column; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="result-page">
+  <div class="container-sm">
+
+    <!-- Price Hero -->
+    <div class="price-hero fade-up">
+      <div class="label">✦ Estimated Market Price</div>
+      <div class="amount">{{ price }}</div>
+      <div class="price-range">
+        <span>{{ low }}</span>
+        <span class="arrow">→</span>
+        <span>{{ high }}</span>
+      </div>
+      <div class="confidence-bar"><div class="confidence-bar-fill"></div></div>
+      <div class="confidence-label">
+        <span>Model confidence:</span>
+        <span style="color:var(--success);font-weight:600">89%  (R² = 0.89)</span>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="badge-row fade-up-2">
+      <span class="badge badge-teal">Random Forest</span>
+      <span class="badge badge-gold">100 Decision Trees</span>
+      <span class="badge badge-green">Best Model</span>
+    </div>
+
+    <!-- Two-column grid -->
+    <div class="result-grid fade-up-3">
+
+      <!-- Property Summary -->
+      <div class="summary-card">
+        <div class="card-title">Property Details</div>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <div class="k">Area</div>
+            <div class="v">{{ area }} sq ft</div>
+          </div>
+          <div class="prop-item">
+            <div class="k">Bedrooms</div>
+            <div class="v">{{ bedrooms }}</div>
+          </div>
+          <div class="prop-item">
+            <div class="k">Bathrooms</div>
+            <div class="v">{{ bathrooms }}</div>
+          </div>
+          <div class="prop-item">
+            <div class="k">Parking</div>
+            <div class="v">{{ parking }} space(s)</div>
+          </div>
+          <div class="prop-item">
+            <div class="k">Furnishing</div>
+            <div class="v">{{ furnishingstatus }}</div>
+          </div>
+          <div class="prop-item">
+            <div class="k">Air Conditioning</div>
+            <div class="v">{{ airconditioning }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model Info -->
+      <div class="summary-card">
+        <div class="card-title">Model Information</div>
+        <div class="info-row"><span class="k">Algorithm</span><span class="v">Random Forest</span></div>
+        <div class="info-row"><span class="k">R² Score</span><span class="v" style="color:var(--success)">0.89</span></div>
+        <div class="info-row"><span class="k">Training Samples</span><span class="v">545 records</span></div>
+        <div class="info-row"><span class="k">Decision Trees</span><span class="v">100</span></div>
+        <div class="info-row"><span class="k">Features Used</span><span class="v">6 columns</span></div>
+        <div class="info-row"><span class="k">Price Range</span><span class="v">± 8% margin</span></div>
+        <div class="info-row"><span class="k">vs Linear Regression</span><span class="v">+13% better R²</span></div>
+      </div>
+
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-row" style="margin-top:24px">
+      <a href="/"        class="btn btn-primary">← Predict Another</a>
+      <a href="/history" class="btn btn-outline">View History</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

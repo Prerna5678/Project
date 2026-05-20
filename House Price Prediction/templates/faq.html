@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HousePriceAI</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #ECECEC;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ================= NAV ================= */
+nav {
+    background-color: #0A2A66;
+    padding: 15px 30px;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 42px;
+    height: 42px;
+}
+
+.logo span {
+    color: #FFFFFF;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav a {
+    color: #FFFFFF;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #4DA3FF;
+}
+
+/* ================= MAIN ================= */
+.main-content {
+    flex: 1;
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #0A2A66;
+    margin-bottom: 30px;
+}
+
+/* FAQ */
+.faq-item {
+    background: #FFFFFF;
+    border-left: 4px solid #1E90FF;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.faq-item:hover {
+    background: #F5F7FA;
+}
+
+.faq-question {
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.faq-answer {
+    display: none;
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333333;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAV ================= -->
+<nav>
+    <div class="nav-container">
+        <div class="logo">
+            <span>HousePriceAI</span>
+        </div>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('how_it_works') }}">How It Works</a>
+            <a href="{{ url_for('faq') }}">FAQ</a>
+            <a href="{{ url_for('register') }}">Login</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ================= FAQ ================= -->
+<div class="main-content">
+<h1>Frequently Asked Questions</h1>
+
+<div class="faq-item">
+    <div class="faq-question">What is HousePriceAI?<span>+</span></div>
+    <div class="faq-answer">
+        HousePriceAI is an advanced machine learning platform designed to predict property prices with high accuracy.
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">How does the prediction system work? <span>+</span></div>
+    <div class="faq-answer">
+        It is a system that estimates property prices based on location, area, number of rooms, and market trends.
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">How accurate are the predictions?<span>+</span></div>
+    <div class="faq-answer">
+        Predictions are generated using historical data and smart models, providing reliable market-based estimates.
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question"> Who can use HousePriceAI?<span>+</span></div>
+    <div class="faq-answer">
+        The platform is suitable for home buyers, sellers, investors, students, researchers, and real estate professionals looking for intelligent housing market insights.
+
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">Is registration mandatory? <span>+</span></div>
+    <div class="faq-answer">
+        Yes, registration helps us provide personalized features and secure access to prediction tools.
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">Is my personal data safe? <span>+</span></div>
+    <div class="faq-answer">
+        Absolutely. We follow modern security standards and data protection practices to ensure that all user information remains confidential and protected.
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">Can I use this platform for free? <span>+</span></div>
+    <div class="faq-answer">
+        Basic features are free. Advanced services may be added in future versions.
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">How do I reset my password? <span>+</span></div>
+    <div class="faq-answer">
+        Use the "Forgot Password" option on the login page to reset your credentials.
+    </div>
+</div>
+
+
+
+
+</div>
+
+</div>
+<script>
+document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('span');
+        const open = answer.style.display === 'block';
+
+        answer.style.display = open ? 'none' : 'block';
+        icon.textContent = open ? '+' : '−';
+    });
+});
+</script>
+
+</body>
+</html>

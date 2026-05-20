@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HousePriceAI</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #ECECEC;
+}
+
+/* ================= NAVIGATION ================= */
+nav {
+    background-color: #0A2A66;
+    padding: 15px 30px;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 42px;
+    height: 42px;
+}
+
+.logo span {
+    color: #FFFFFF;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav a {
+    color: #FFFFFF;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #4DA3FF;
+}
+
+/* ================= FORM ================= */
+.form-container {
+    width: 550px;
+    margin: 50px auto;
+    background: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15),
+        0 4px 10px rgba(30, 144, 255, 0.15);
+    border-left: 4px solid #1E90FF;
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #0A2A66;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.predict-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #1E90FF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.predict-btn:hover {
+    background-color: #166FCC;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    background-color: #0A2A66;
+    padding: 50px 60px;
+    color: #F1F5FF;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+}
+
+.footer h4 {
+    color: #FFFFFF;
+    margin-bottom: 18px;
+    font-size: 18px;
+}
+
+.footer p {
+    margin: 6px 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #F1F5FF;
+}
+
+.footer a {
+    display: block;
+    color: #D6E0F5;
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.footer a:hover {
+    color: #4DA3FF;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons img {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.footer-bottom {
+    background-color: #081F4D;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAV ================= -->
+<nav>
+    <div class="nav-container">
+        <div class="logo">
+            <span>HousePriceAI</span>
+        </div>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('how_it_works') }}">How It Works</a>
+            <a href="{{ url_for('faq') }}">FAQ</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ================= FORM ================= -->
+
+<div class="form-container">
+    <h2>House Price Prediction</h2>
+
+    <!-- IMPORTANT: Added FORM -->
+    <form method="POST" action="{{ url_for('predict') }}">
+
+        <div class="form-group">
+            <label>Area (Square Feet)</label>
+            <input type="number" name="area" placeholder="Enter area" required>
+        </div>
+
+        <div class="form-group">
+            <label>BHK</label>
+            <select name="bhk" required>
+                <option value="">Select BHK</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Bathrooms</label>
+            <select name="bathrooms" required>
+                <option value="">Select Bathrooms</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Location</label>
+            <input type="text" name="location" placeholder="Enter location" required>
+        </div>
+
+        <!-- IMPORTANT: type="submit" -->
+        <button type="submit" class="predict-btn">Predict Price</button>
+
+    </form>
+</div>
+
+</body>
+</html>

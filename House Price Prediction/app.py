@@ -36,6 +36,10 @@ def about():
 def how_it_works():
     return render_template("how_it_works.html")
 
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
 
 # PROPERTY PAGE
 
@@ -76,11 +80,11 @@ def property_enquiry():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        name    = request.form["name"].strip()
-        email   = request.form["email"].strip()
-        subject = request.form["subject"].strip()
-        message = request.form["message"].strip()
         try:
+            name    = request.form["name"].strip()
+            email   = request.form["email"].strip()
+            subject = request.form["subject"].strip()
+            message = request.form["message"].strip()
             conn = get_db_connection(); cursor = conn.cursor()
             cursor.execute("INSERT INTO contacts (name, email, subject, message) VALUES (%s,%s,%s,%s)",
                            (name, email, subject, message))
@@ -635,4 +639,4 @@ def admin_about_delete(sid):
 
 
 if __name__ == "__main__":
-    app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true")
+    app.run(debug=True)

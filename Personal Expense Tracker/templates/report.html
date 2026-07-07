@@ -15,6 +15,8 @@
         <th>Category</th>
         <th>Description</th>
         <th>(₹) Amount</th>
+        <th>Update</th>
+        <th>Delete</th>
     </tr>
     {% for row in tracking %}
     <tr>
@@ -23,6 +25,8 @@
         <td>{{ row[2] }}</td>
         <td>{{ row[3] }}</td>
         <td>{{row[4]  }}</td>
+        <td>{{row[5]  }}</td>
+        <td>{{row[6]  }}</td>
     </tr>
     {% endfor %}
 </table>

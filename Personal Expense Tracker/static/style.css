@@ -7,7 +7,7 @@
 body {
     background: linear-gradient(135deg, #667eea, #764ba2);
     font-family: Arial, sans-serif;
-    padding: 50px;
+    padding: 15px;
 }
 
 .container {
@@ -16,10 +16,28 @@ body {
     margin: auto;
 }
 
+.navbar {
+    padding: 10px;
+    text-align: right;
+    margin-bottom: 30px;
+    margin-right: 80px;
+    margin-left: 880;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+
 h2 {
     text-align: center;
     color: whitesmoke;
-    margin-bottom: 25px;
+    margin-bottom: 7px;
     font-style: italic;
 }
 
@@ -48,6 +66,7 @@ label {
     display: block;
     margin-bottom: 6px;
     font-weight: bold;
+    font-size: small;
 }
 
 input,
@@ -92,6 +111,7 @@ button:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -118,6 +138,8 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #fff8db;
 }
+
+
 
 @media (max-width: 768px) {
 

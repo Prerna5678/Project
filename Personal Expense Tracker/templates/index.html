@@ -9,11 +9,11 @@
     
 </head>
 <body>
-
+<nav class="navbar">
+    <a href="{{ url_for('login') }}">Login</a>
+    </nav>
     <div class="container">
-
         <h2>💰 Personal Expense Tracker</h2><br>
-
         <div class="form-card">
             <h3>Add New Expense</h3>
 
@@ -28,7 +28,7 @@
                     <select id="category" name="category" required>
                         <option value="">Select Category</option>
                         <option>Food</option>
-                        <option>Transport</option>
+                        <option>Travel</option>
                         <option>Shopping</option>
                         <option>Bills</option>
                         <option>Entertainment</option>
@@ -46,12 +46,21 @@
                     <input type="text" id="description" name="description" placeholder="Enter description" required>
                 </div><br>
 
-                <button type="submit" name="action" value="add">➕ Add Expense</button><br><br>
+               <button type="button" onclick="window.location.href='{{ url_for('add') }}'"> ➕ Add Expense </button>
+                </button><br><br>
 
                 <div class="button-group" style="display: flex; gap: 10px;">
-                <button type="submit" name="action" value="view">📊 View Expenses</button>
-                <button type="submit" name="action" value="edit">✏️ Edit / 🗑️ Delete </button>
-                </div>
+                <button type="button"
+                        onclick="window.location.href='{{ url_for('view') }}'">
+                        📊 View Expenses
+                </button>
+
+            <button type="button"
+                    onclick="window.location.href='{{ url_for('report') }}'">
+                ✏️ Edit / 🗑️ Delete
+            </button>
+            </div>
+
             </form>
         </div>
 

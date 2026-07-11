@@ -151,3 +151,37 @@ tr:hover {
         font-size: 14px;
     }
 }
+
+/* Flash messages and inline field errors */
+.flash-messages {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.flash {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.flash.error {
+    background-color: #fdecea;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+}
+
+.flash.success {
+    background-color: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #1e8449;
+}
+
+.error-text {
+    display: block;
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: bold;
+}

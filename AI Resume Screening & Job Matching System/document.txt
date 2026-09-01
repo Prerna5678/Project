@@ -1,0 +1,33 @@
+AI_Resume_Matching/
+│
+├── app.py
+│
+├── database/
+│   └── database.db
+│
+├── ml/
+│   ├── matching.py
+│   ├── preprocessing.py
+│   └── model.py
+│
+├── resume_parser/
+│   └── parser.py
+│
+├── data/
+│   ├── skills.csv
+│   └── jobs.csv
+│
+├── templates/
+│   ├── index.html
+│   ├── upload.html
+│   ├── jobs.html
+│   └── results.html
+│
+├── static/
+│   ├── style.css
+│   └── script.js
+│
+├── uploads/
+│
+├── requirements.txt
+└── README.md

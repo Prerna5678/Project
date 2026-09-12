@@ -32,7 +32,8 @@
 </head>
 
 <body>
-    <!-- Spinner Start -->
+
+      <!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -53,37 +54,76 @@
                     data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
+                  <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="result.html" class="nav-item nav-link">Result</a>
                         <a href="history.html" class="nav-item nav-link">History</a>
-                         <a href="dashboard.html" class="nav-item nav-link">Dashboard</a>
+                        <a href="result.html" class="nav-item nav-link">Result</a>
+                        <a href="login.html" class="nav-item nav-link">Login</a>
                     </div>
-                 </div>
+                </div>
             </nav>
         </div>
     </div>
     <!-- Navbar End -->
 
+
     <!-- Hero Start -->
-    <div class="container-fluid pt-5 bg-primary hero-header mb-5">
+    <div class="container-fluid pt-5 bg-primary hero-header">
         <div class="container pt-5">
             <div class="row g-5 pt-5">
                 <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
-                    <div class="btn btn-sm border rounded-pill text-white px-3 mb-3 animated slideInRight">PhishGuard AI</div>
-                    <h1 class="display-4 text-white mb-4 animated slideInRight">Artificial Intelligence  -Powered Phishing & Scam Detection System</h1>
-                    <p class="text-white mb-4 animated slideInRight">A software that uses AI to check a URL, website, email, or message and detect 
-                        whether it is Safe, Suspicious, or a Phishing/Scam attempt.
-                    </p>
+                    <h1 class="display-4 text-white mb-4 animated slideInRight">Registration Page</h1>
+                    <nav aria-label="breadcrumb">
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="result.html" class="nav-item nav-link">Result</a>
+                        <a href="history.html" class="nav-item nav-link">History</a>
+                        <a href="login.html" class="nav-item nav-link">Login</a>
+                    </div>
+                 </div>
+                    </nav>
                 </div>
                 <div class="col-lg-6 align-self-end text-center text-lg-end">
-                    <img class="img-fluid" src="img/hero-img.png" alt="">
+                    <img class="img-fluid" src="img/hero-img.png" alt="" style="max-height: 300px;">
                 </div>
             </div>
         </div>
     </div>
     <!-- Hero End -->
+
+    
+<!-- ================= SIGNUP FORM ================= -->
+<section class="signup-section">
+    <div class="form-container">
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" required>
+            </div>
+
+            <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+
+        <div class="form-footer">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Sign In</a>
+        </div>
+    </div>
+</section>
+
 
     
     <!-- Footer Start -->

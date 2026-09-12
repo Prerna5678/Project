@@ -5,7 +5,9 @@ from config import get_db_connection
 import csv, os, traceback
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "jyesta_secret_key_2025")
+
+# Replace with a strong secret key for session management
+app.secret_key = 'your_secret_key'  
 
 
 

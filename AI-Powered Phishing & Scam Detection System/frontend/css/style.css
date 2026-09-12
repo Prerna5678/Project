@@ -328,6 +328,88 @@ h6,
 
 
 
+/* ================= SIGNIN FORM ================= */
+.signin-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.form-container {
+    width: 400px;
+    background: #FFFFFF;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15),
+        0 4px 10px rgba(30, 144, 255, 0.15);
+    border-top: 5px solid #1E90FF;
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #0A2A66;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: border 0.3s ease;
+}
+
+.form-group input:focus {
+    border: 1px solid #1E90FF;
+    outline: none;
+}
+
+.signin-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #1E90FF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.signin-btn:hover {
+    background-color: #166FCC;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.form-footer a {
+    color: #1E90FF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
 
 /*** Footer ***/
 .footer {

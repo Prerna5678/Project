@@ -71,9 +71,8 @@
     <div class="container-fluid pt-5 bg-primary hero-header">
         <div class="container pt-5">
             <div class="row g-5 pt-5">
-                <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
-                    <h1 class="display-4 text-white mb-4 animated slideInRight">Login Page</h1>
-                    <nav aria-label="breadcrumb">
+            <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
+                    
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="index.html" class="nav-item nav-link active">Home</a>
@@ -83,42 +82,42 @@
                     </div>
                  </div>
                     </nav>
+                
+
+                <!-- ================= SIGNIN FORM ================= -->
+                <section class="signin-section">
+                    <div class="form-container" >
+
+                    <form method="POST">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" required>
+                        </div>
+
+                        <button type="submit" class="signin-btn">Sign In</button>
+                    </form>
+
+                    <div class="form-footer">
+                        Don't have an account?
+                        <a href="{{ url_for('reg') }}">Create Account</a>
+                    </div>
                 </div>
+                </section>
+                </div>
+
                 <div class="col-lg-6 align-self-end text-center text-lg-end">
-                    <img class="img-fluid" src="img/hero-img.png" alt="" style="max-height: 300px;">
-                </div>
+                    <img class="img-fluid" src="img/hero-img.png" alt="" style="max-height: 500px;" >
+                </div> 
             </div>
         </div>
     </div>
     <!-- Hero End -->
 
-
-<!-- ================= SIGNIN FORM ================= -->
-<section class="signin-section">
-    <div class="form-container">
-
-        <form method="POST">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="name" required>
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-
-            <button type="submit" class="signin-btn">Sign In</button>
-        </form>
-
-        <div class="form-footer">
-            Don't have an account?
-            <a href="{{ url_for('reg') }}">Create Account</a>
-        </div>
-    </div>
-</section>
-
-    
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 footer pt-5">
         <div class="container py-5">

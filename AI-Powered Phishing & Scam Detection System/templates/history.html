@@ -8,216 +8,230 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
+    <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
 
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Ubuntu:wght@500;700&display=swap"
         rel="stylesheet">
 
-    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
     <link href="{{ url_for('static', filename='lib/animate/animate.min.css') }}" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
-        <!-- Spinner Start -->
+
+    <!-- Spinner Start -->
     <div id="spinner"
-        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        class="bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="visually-hidden">Loading...</span>
         </div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Navbar Start -->
     <div class="container-fluid sticky-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark p-0">
-                <a href="{{ url_for('home') }}" class="navbar-brand">
+
+                <a href="{{ url_for('index') }}" class="navbar-brand">
                     <h1 class="text-white">PhishGuard<span class="text-dark">.</span>AI</h1>
                 </a>
-                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
+
+                <button type="button" class="navbar-toggler ms-auto me-0"
+                    data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                  <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="{{ url_for('home') }}" class="nav-item nav-link active">Home</a>
-                        <a href="{{ url_for('history') }}" class="nav-item nav-link">History</a>
-                        <a href="{{ url_for('results') }}" class="nav-item nav-link">Result</a>
+                        <a href="{{ url_for('index') }}" class="nav-item nav-link">Home</a>
+                        <a href="{{ url_for('history') }}" class="nav-item nav-link active">History</a>
+                        <a href="{{ url_for('result') }}" class="nav-item nav-link">Result</a>
                         <a href="{{ url_for('login') }}" class="nav-item nav-link">Login</a>
                     </div>
                 </div>
+
             </nav>
         </div>
     </div>
     <!-- Navbar End -->
 
-
     <!-- Hero Start -->
     <div class="container-fluid pt-5 bg-primary hero-header">
         <div class="container pt-5">
             <div class="row g-5 pt-5">
+
                 <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
-                    <h1 class="display-4 text-white mb-4 animated slideInRight">History Page</h1>
-                    <nav aria-label="breadcrumb">
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a href="{{ url_for('home') }}" class="nav-item nav-link active">Home</a>
-                        <a href="{{ url_for('results') }}" class="nav-item nav-link">Result</a>
-                        <a href="{{ url_for('history') }}" class="nav-item nav-link">History</a>
-                        <a href="{{ url_for('login') }}" class="nav-item nav-link">Login</a>
-                    </div>
-                 </div>
-                    </nav>
+                    <h1 class="display-4 text-white mb-4 animated slideInRight">
+                        History Page
+                    </h1>
                 </div>
+
                 <div class="col-lg-6 align-self-end text-center text-lg-end">
-                    <img class="img-fluid" src="{{ url_for('static', filename='img/hero-img.png') }}" alt="" style="max-height: 300px;">
+                    <img class="img-fluid"
+                        src="{{ url_for('static', filename='img/hero-img.png') }}"
+                        alt="" style="max-height: 300px;">
                 </div>
+
             </div>
         </div>
     </div>
     <!-- Hero End -->
 
-
     <!-- Case Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 500px;">
-                <div class="btn btn-sm border rounded-pill text-primary px-3 mb-3">History</div>
+
+            <div class="mx-auto text-center wow fadeIn"
+                data-wow-delay="0.1s" style="max-width: 500px;">
+                <div class="btn btn-sm border rounded-pill text-primary px-3 mb-3">
+                    History
+                </div>
                 <h1 class="mb-4">Explore Our Recent Phishing Trends</h1>
             </div>
+
             <div class="row g-4">
+
                 <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
                     <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/Project1.jpg') }}" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
+                        <img class="img-fluid"
+                            src="{{ url_for('static', filename='img/Project1.jpg') }}" alt="">
+                        <a class="case-overlay text-decoration-none" href="#">
                             <small>2021 Year</small>
                             <h5 class="lh-base text-white mb-3">
-                                Microsoft 365 phishing became a major threat, with attackers 
-                                increasingly using fake Microsoft login pages to steal credentials. Phishing remained heavily 
-                                focused on account/password theft.
+                                Microsoft 365 phishing became a major threat, with attackers
+                                increasingly using fake Microsoft login pages to steal credentials.
+                                Phishing remained heavily focused on account/password theft.
                             </h5>
                         </a>
                     </div>
                 </div>
+
                 <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
                     <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/Project.jpg') }}" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
+                        <img class="img-fluid"
+                            src="{{ url_for('static', filename='img/Project.jpg') }}" alt="">
+                        <a class="case-overlay text-decoration-none" href="#">
                             <small>2022 Year</small>
                             <h5 class="lh-base text-white mb-3">
-                                SMS phishing (smishing) and scams targeting banking and cryptocurrency users 
-                                increased. Attackers increasingly used text messages and fake login/payment 
-                                pages to trick victims.
+                                SMS phishing (smishing) and scams targeting banking and cryptocurrency
+                                users increased. Attackers increasingly used text messages and fake
+                                login/payment pages to trick victims.
                             </h5>
                         </a>
                     </div>
                 </div>
+
                 <div class="col-lg-4 wow fadeIn" data-wow-delay="0.7s">
                     <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/Project2.jpg') }}" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
+                        <img class="img-fluid"
+                            src="{{ url_for('static', filename='img/Project2.jpg') }}" alt="">
+                        <a class="case-overlay text-decoration-none" href="#">
                             <small>2023 Year</small>
                             <h5 class="lh-base text-white mb-3">
-                                MGM Resorts & Caesars Entertainment suffered major cyber incidents 
-                                involving social engineering. Attackers used impersonation techniques 
+                                MGM Resorts &amp; Caesars Entertainment suffered major cyber incidents
+                                involving social engineering. Attackers used impersonation techniques
                                 to gain access, showing that human deception remained a major security
                                 weakness.
                             </h5>
                         </a>
                     </div>
                 </div>
-                <div class="row g-4">
+
                 <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
                     <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/Project4.jpg') }}" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
+                        <img class="img-fluid"
+                            src="{{ url_for('static', filename='img/Project4.jpg') }}" alt="">
+                        <a class="case-overlay text-decoration-none" href="#">
                             <small>2024 Year</small>
                             <h5 class="lh-base text-white mb-3">
-                                AI-generated phishing became a bigger concern. The UK NCSC warned that 
-                                generative AI could make phishing messages more convincing and harder for
-                                people to recognize.
+                                AI-generated phishing became a bigger concern. The UK NCSC warned that
+                                generative AI could make phishing messages more convincing and harder
+                                for people to recognize.
                             </h5>
                         </a>
                     </div>
                 </div>
-                  <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
+
+                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
                     <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/Project3.jpg') }}" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
+                        <img class="img-fluid"
+                            src="{{ url_for('static', filename='img/Project3.jpg') }}" alt="">
+                        <a class="case-overlay text-decoration-none" href="#">
                             <small>2025 Year</small>
                             <h5 class="lh-base text-white mb-3">
-                               Phishing continued at very high levels. APWG recorded 1,003,924 phishing 
-                               attacks in Q1 2025, its highest quarterly total since late 2023. QR-code 
-                               phishing (“quishing”) and attacks against financial/payment services were 
-                               notable trends.
+                                Phishing continued at very high levels. APWG recorded 1,003,924
+                                phishing attacks in Q1 2025, its highest quarterly total since late
+                                2023. QR-code phishing (“quishing”) and attacks against financial/payment
+                                services were notable trends.
                             </h5>
                         </a>
                     </div>
                 </div>
+
                 <div class="col-lg-4 wow fadeIn" data-wow-delay="0.7s">
                     <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/Project5.jpg') }}" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
+                        <img class="img-fluid"
+                            src="{{ url_for('static', filename='img/Project5.jpg') }}" alt="">
+                        <a class="case-overlay text-decoration-none" href="#">
                             <small>2026 Year</small>
                             <h5 class="lh-base text-white mb-3">
-                                Phishing has evolved into more sophisticated attacks involving 
-                                AI-generated deception, SMS phishing, QR-code phishing, social-media scams, 
-                                and impersonation.
+                                Phishing has evolved into more sophisticated attacks involving
+                                AI-generated deception, SMS phishing, QR-code phishing, social-media
+                                scams, and impersonation.
                             </h5>
                         </a>
                     </div>
                 </div>
-                </div>
+
             </div>
         </div>
     </div>
     <!-- Case End -->
-    
+
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 footer pt-5">
         <div class="container py-5">
             <div class="row g-5">
+
                 <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <a href="{{ url_for('home') }}" class="d-inline-block mb-3">
+                    <a href="{{ url_for('index') }}" class="d-inline-block mb-3">
                         <h1 class="text-white">PhishGuard<span class="text-primary">.</span>AI</h1>
                     </a>
-                    <p class="mb-0">We want users to become more aware of suspicious online activities 
-                        and make safer decisions when interacting with unknown links and messages</p>
+                    <p class="mb-0">
+                        We want users to become more aware of suspicious online activities
+                        and make safer decisions when interacting with unknown links and messages.
+                    </p>
                 </div>
-                
+
             </div>
         </div>
-        
+    </div>
     <!-- Footer End -->
 
-
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top pt-2"><i class="bi bi-arrow-up"></i></a>
-
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top pt-2">
+        <i class="bi bi-arrow-up"></i>
+    </a>
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body>
 
+</body>
 </html>

@@ -4,7 +4,6 @@ USE phishing_db;
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,
-    email VARCHAR(150) UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -31,3 +30,6 @@ CREATE TABLE IF NOT EXISTS scan_results (
 
 CREATE INDEX ix_scan_results_url
     ON scan_results(url);
+    
+select * from users;
+

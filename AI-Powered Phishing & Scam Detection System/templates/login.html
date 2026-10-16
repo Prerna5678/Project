@@ -63,6 +63,16 @@
                 <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
                     <section class="signin-section">
                         <div class="form-container">
+
+                             <!-- Display Flask success/error messages -->
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }}">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endwith %}
+                                
                             <form method="POST">
                                 <div class="form-group">
                                     <label>Username</label>

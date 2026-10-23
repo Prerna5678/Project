@@ -18,7 +18,8 @@ INSERT INTO users (name, email, password) VALUES
 ('Arjun Das', 'arjun.das22@gmail.com', 'Arjun@111'),
 ('Nisha Kulkarni', 'nisha.kulkarni33@outlook.com', 'Nisha#222'),
 ('Manish Yadav', 'manish.yadav44@gmail.com', 'Manish@333'),
-('Divya Bansal', 'divya.bansal55@yahoo.com', 'Divya#444');
+('Divya Bansal', 'divya.bansal55@yahoo.com', 'Divya#444'),
+('Rahul','rahul@gmail.com','12345');
 
 
 INSERT INTO predictions

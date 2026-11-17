@@ -254,6 +254,27 @@ def login():
 
 
 # --------------------------------------------------
+# Admin Login (Design Prototype - No DB required)
+# --------------------------------------------------
+@app.route("/admin-login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        password = request.form.get("password", "")
+
+        # Hardcoded admin credentials for demonstration
+        if name == "admin" and password == "admin123":
+            session.clear()
+            session["user_id"] = 0  # Admin user ID
+            session["user_name"] = "Admin"
+            flash("Welcome, Admin!", "success")
+            return redirect(url_for("index"))
+
+        flash("Invalid admin credentials.", "error")
+
+    return render_template("admin_login.html")
+
+# --------------------------------------------------
 # Logout
 # --------------------------------------------------
 @app.route("/logout", methods=["GET", "POST"])

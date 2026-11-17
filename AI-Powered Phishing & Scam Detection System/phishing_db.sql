@@ -17,7 +17,15 @@ CREATE TABLE history (
         ON DELETE CASCADE
 );
     
-select * from users;
+CREATE TABLE IF NOT EXISTS admin (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Default admin  (password: admin123)
+INSERT INTO admin (username, password)
+VALUES ('admin', '$2b$12$ix7gAHb8gPNUMRpEyuMO5eXGPuT7V2qUqk5e9S.B3A6rCWkNbMkHy');
 
 
 

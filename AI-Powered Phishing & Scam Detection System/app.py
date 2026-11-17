@@ -259,18 +259,21 @@ def login():
 @app.route("/admin-login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        password = request.form.get("password", "")
+        admin_user = request.form.get("admin_username", "").strip()
+        admin_pass = request.form.get("admin_password", "").strip()
 
-        # Hardcoded admin credentials for demonstration
-        if name == "admin" and password == "admin123":
-            session.clear()
-            session["user_id"] = 0  # Admin user ID
-            session["user_name"] = "Admin"
-            flash("Welcome, Admin!", "success")
-            return redirect(url_for("index"))
+        if not admin_user or not admin_pass:
+            flash("Please enter both admin identifier and master key.", "danger")
+            return render_template("admin_login.html")
 
-        flash("Invalid admin credentials.", "error")
+        # Design prototype: direct access without DB requirement
+        if admin_user and admin_pass:
+            session["is_admin"] = True
+            session["admin_name"] = admin_user
+            flash(f"Welcome Admin, {admin_user}!", "success")
+            return redirect(url_for("result"))
+        else:
+            flash("Invalid administrator credentials.", "danger")
 
     return render_template("admin_login.html")
 

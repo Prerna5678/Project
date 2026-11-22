@@ -5,53 +5,42 @@
     <title>Admin Dashboard - PhishGuard.AI</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     
-    <!-- Favicon -->
     <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark-main: #0B1120;
-            --bg-dark-sidebar: #070D18;
-            --bg-dark-card: #131E35;
-            --bg-dark-card-hover: #182642;
-            --bg-dark-input: #0B132B;
-            --border-dark: #1E2D4A;
+            --bg-body: #070B14;
+            --bg-sidebar: #05080F;
+            --bg-card: #0D1527;
+            --bg-card-hover: #111C33;
+            --border-dark: #192742;
+            --text-main: #E2E8F0;
+            --text-muted: #8E9BAE;
             --accent-cyan: #00E5FF;
-            --accent-blue: #1E88E5;
-            --accent-gradient: linear-gradient(135deg, #00E5FF 0%, #1E88E5 100%);
-            --text-primary: #F1F5F9;
-            --text-muted: #94A3B8;
-            --danger-color: #EF4444;
-            --warning-color: #F59E0B;
-            --success-color: #10B981;
+            --accent-blue: #1A73E8;
+            --sidebar-width: 230px;
         }
 
         body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark-main);
-            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            font-size: 0.84rem;
             min-height: 100vh;
             display: flex;
-            margin: 0;
-            overflow-x: hidden;
         }
 
-        /* Sidebar Styling */
+        /* Left Side Bar */
         .admin-sidebar {
-            width: 270px;
-            background: var(--bg-dark-sidebar);
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
             border-right: 1px solid var(--border-dark);
             min-height: 100vh;
             display: flex;
@@ -60,550 +49,733 @@
             left: 0;
             top: 0;
             bottom: 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
+            z-index: 1050;
+            transition: transform 0.3s ease;
         }
 
-        .sidebar-brand {
-            padding: 24px 22px;
-            font-size: 1.35rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            border-bottom: 1px solid var(--border-dark);
+        .sidebar-brand-box {
+            padding: 18px 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             text-decoration: none;
             color: #fff;
-        }
-
-        .sidebar-brand i {
-            color: var(--accent-cyan);
-            font-size: 1.5rem;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 20px 14px;
-            margin: 0;
-            flex-grow: 1;
-        }
-
-        .menu-header {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            padding: 10px 14px 6px;
-        }
-
-        .nav-item-admin {
-            margin-bottom: 6px;
-        }
-
-        .nav-link-admin {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            font-size: 0.95rem;
-        }
-
-        .nav-link-admin i {
             font-size: 1.15rem;
-            width: 22px;
-            text-align: center;
-        }
-
-        .nav-link-admin:hover {
-            color: #fff;
-            background: var(--bg-dark-card);
-        }
-
-        .nav-link-admin.active {
-            background: var(--accent-gradient);
-            color: #070D18;
             font-weight: 700;
-            box-shadow: 0 4px 18px rgba(0, 229, 255, 0.25);
+            border-bottom: 1px solid var(--border-dark);
         }
 
-        .nav-link-admin.active i {
-            color: #070D18;
-        }
-
-        .sidebar-footer {
-            padding: 18px;
-            border-top: 1px solid var(--border-dark);
-        }
-
-        .admin-profile {
+        .sidebar-brand-content {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            background: var(--bg-dark-card);
-            border-radius: 10px;
-            border: 1px solid var(--border-dark);
+            gap: 10px;
         }
 
-        .admin-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
+        .sidebar-brand-content i {
+            color: var(--accent-cyan);
+            font-size: 1.3rem;
+        }
+
+        .btn-close-sidebar {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .btn-toggle-sidebar {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            color: var(--accent-cyan);
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
             align-items: center;
             justify-content: center;
-            color: #070D18;
-            font-weight: 700;
+            cursor: pointer;
+            margin-right: 10px;
             font-size: 1rem;
         }
 
-        /* Content Area */
-        .admin-content {
-            margin-left: 270px;
-            flex-grow: 1;
-            padding: 26px 36px 50px;
-            width: calc(100% - 270px);
-            min-height: 100vh;
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1040;
+            backdrop-filter: blur(2px);
         }
 
-        /* Top Navbar */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid var(--border-dark);
-        }
-
-        .dashboard-title h2 {
+        .sidebar-menu-list {
+            list-style: none;
+            padding: 16px 10px;
             margin: 0;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: #fff;
-            font-size: 1.75rem;
+            flex-grow: 1;
         }
 
-        .dashboard-title p {
-            margin: 4px 0 0;
+        .sidebar-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            padding: 8px 12px 4px;
+            font-weight: 700;
         }
 
-        .header-actions {
+        .sidebar-link-item {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-nav-link {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
+            padding: 9px 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        /* Metric Cards */
-        .stat-card {
-            background: var(--bg-dark-card);
+        .sidebar-nav-link i {
+            font-size: 0.95rem;
+            width: 18px;
+            text-align: center;
+        }
+
+        .sidebar-nav-link:hover {
+            color: #fff;
+            background: var(--bg-card);
+        }
+
+        .sidebar-nav-link.active {
+            background: linear-gradient(135deg, #00E5FF 0%, #1E88E5 100%);
+            color: #070D18;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.25);
+        }
+
+        .sidebar-nav-link.active i {
+            color: #070D18;
+        }
+
+        .sidebar-bottom-profile {
+            padding: 14px 16px;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .admin-user-pill-bottom {
+            background: var(--bg-card);
             border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 22px;
+            border-radius: 8px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            margin-bottom: 8px;
         }
 
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(0, 229, 255, 0.4);
-        }
-
-        .stat-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
+        .admin-avatar-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00E5FF, #1E88E5);
+            color: #070D18;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 0.8rem;
         }
 
-        .stat-icon.cyan {
-            background: rgba(0, 229, 255, 0.12);
-            color: var(--accent-cyan);
+        /* Right Content Container */
+        .admin-main-container {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 22px 28px 40px;
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
         }
 
-        .stat-icon.blue {
-            background: rgba(30, 136, 229, 0.15);
-            color: #60A5FA;
-        }
-
-        .stat-icon.red {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger-color);
-        }
-
-        .stat-icon.green {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success-color);
-        }
-
-        .stat-value {
-            font-size: 1.85rem;
-            font-weight: 800;
-            color: #fff;
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin: 0;
-            font-weight: 500;
-        }
-
-        /* Dark Table Card */
-        .table-card {
-            background: var(--bg-dark-card);
-            border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-            margin-top: 24px;
-        }
-
-        .table-card-header {
+        /* Top Header Bar */
+        .admin-header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-dark);
         }
 
-        .table-title {
-            font-size: 1.25rem;
+        .header-title-box h4 {
+            margin: 0;
             font-weight: 700;
             color: #fff;
+            font-size: 1.25rem;
+        }
+
+        .header-title-box p {
+            margin: 2px 0 0;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-actions-box {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 0;
+            gap: 12px;
         }
 
-        .table-dark-custom {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            color: var(--text-primary);
-        }
-
-        .table-dark-custom th {
-            background: var(--bg-dark-sidebar);
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border-dark);
-            border-top: 1px solid var(--border-dark);
-        }
-
-        .table-dark-custom th:first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-        }
-
-        .table-dark-custom th:last-child {
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-
-        .table-dark-custom td {
-            padding: 16px 18px;
-            vertical-align: middle;
-            border-bottom: 1px solid var(--border-dark);
-            font-size: 0.93rem;
-        }
-
-        .table-dark-custom tbody tr {
-            transition: background 0.2s ease;
-        }
-
-        .table-dark-custom tbody tr:hover {
-            background: var(--bg-dark-card-hover);
-        }
-
-        /* Buttons */
-        .btn-cyan {
-            background: var(--accent-gradient);
-            color: #070D18;
-            font-weight: 700;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-cyan:hover {
-            opacity: 0.92;
-            color: #000;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.35);
-        }
-
-        .btn-outline-dark-custom {
+        .btn-header-site {
             background: transparent;
             border: 1px solid var(--border-dark);
             color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            text-decoration: none;
+            transition: all 0.2s;
         }
 
-        .btn-outline-dark-custom:hover {
-            background: var(--bg-dark-sidebar);
+        .btn-header-site:hover {
+            background: var(--bg-card);
             color: #fff;
             border-color: var(--accent-cyan);
         }
 
-        .btn-action-edit {
-            background: rgba(30, 136, 229, 0.15);
-            color: #60A5FA;
-            border: 1px solid rgba(30, 136, 229, 0.3);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .btn-action-edit:hover {
-            background: #1E88E5;
-            color: #fff;
-        }
-
-        .btn-action-del {
-            background: rgba(239, 68, 68, 0.15);
-            color: #F87171;
+        .btn-header-logout {
+            background: rgba(239, 68, 68, 0.12);
             border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #F87171;
+            padding: 5px 12px;
             border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
+            text-decoration: none;
             transition: all 0.2s;
         }
 
-        .btn-action-del:hover {
+        .btn-header-logout:hover {
             background: #EF4444;
             color: #fff;
         }
 
-        /* Modals in Dark Theme */
-        .modal-content.dark-modal {
-            background-color: var(--bg-dark-card);
+        /* Top Stat Cards Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
             border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            color: var(--text-primary);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .modal-header.dark-modal-header {
-            border-bottom: 1px solid var(--border-dark);
-            padding: 20px 24px;
+        .stat-box:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 229, 255, 0.35);
         }
 
-        .modal-footer.dark-modal-footer {
-            border-top: 1px solid var(--border-dark);
-            padding: 16px 24px;
-        }
-
-        .form-control-dark {
-            background-color: var(--bg-dark-input);
-            border: 1px solid var(--border-dark);
-            color: #fff;
+        .stat-icon-wrap {
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.95rem;
+            background: #142036;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            flex-shrink: 0;
         }
 
-        .form-control-dark:focus {
-            background-color: var(--bg-dark-input);
-            border-color: var(--accent-cyan);
+        .stat-info .stat-number {
+            font-size: 1.35rem;
+            font-weight: 700;
             color: #fff;
-            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.15);
+            margin: 0;
+            line-height: 1.1;
         }
 
-        .form-label-dark {
+        .stat-info .stat-title {
+            font-size: 0.74rem;
             color: var(--text-muted);
-            font-size: 0.88rem;
+            margin: 2px 0 0;
             font-weight: 500;
-            margin-bottom: 6px;
         }
 
-        /* Result status badges */
-        .badge-threat-high {
-            background: rgba(239, 68, 68, 0.2);
-            color: #F87171;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            display: inline-flex;
+        /* Tabs Navigation Row */
+        .tabs-nav-bar {
+            display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-dark);
+            margin-bottom: 16px;
+            padding-bottom: 4px;
+            overflow: visible;
         }
 
-        .badge-threat-warn {
-            background: rgba(245, 158, 11, 0.2);
-            color: #FBBF24;
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        /* Hide default scrollbars and custom scroll styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
 
-        .badge-threat-safe {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34D399;
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        ::-webkit-scrollbar-track {
+            background: #070B14;
         }
 
-        .badge-threat-neutral {
-            background: rgba(148, 163, 184, 0.2);
-            color: #CBD5E1;
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        ::-webkit-scrollbar-thumb {
+            background: #192742;
+            border-radius: 4px;
         }
 
-        /* Search & Filter Bar */
-        .search-box {
-            position: relative;
-            min-width: 250px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00E5FF;
         }
 
-        .search-box i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
+        .tab-btn {
+            background: transparent;
+            border: none;
             color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
         }
 
-        .search-box input {
-            padding-left: 38px;
+        .tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            color: #00E5FF;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -5px;
+            height: 2px;
+            background: #00E5FF;
+            border-radius: 2px;
+        }
+
+        /* Add Action Button Strip */
+        .add-action-strip {
+            background: var(--bg-card);
+            border: 1px solid #1E3A66;
+            border-radius: 8px;
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .btn-add-primary {
+            background: transparent;
+            border: none;
+            color: #00E5FF;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-add-primary:hover {
+            opacity: 0.85;
+            color: #38BDF8;
+        }
+
+        .strip-right-icon {
+            color: #64748B;
+            font-size: 0.75rem;
+        }
+
+        /* Clean Dark Data Table */
+        .content-table-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .dark-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin: 0;
+        }
+
+        .dark-data-table th {
+            background: #090F1C;
+            color: #718096;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .dark-data-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid rgba(25, 39, 66, 0.6);
+            vertical-align: middle;
+            font-size: 0.82rem;
+            color: #CBD5E1;
+        }
+
+        .dark-data-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .dark-data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .id-badge {
+            color: #00E5FF;
+            font-weight: 600;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .item-email {
+            color: #94A3B8;
+        }
+
+        /* Action Buttons - Icon Only Clean Minimalist Style */
+        .btn-act-edit {
+            background: rgba(234, 179, 8, 0.12);
+            color: #FACC15;
+            border: 1px solid rgba(234, 179, 8, 0.35);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn-act-edit:hover {
+            background: #EAB308;
+            color: #070B14;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(234, 179, 8, 0.3);
+        }
+
+        .btn-act-del {
+            background: rgba(239, 68, 68, 0.12);
+            color: #F87171;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn-act-del:hover {
+            background: #EF4444;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Threat badges for Predictions */
+        .badge-pred-threat {
+            background: rgba(239, 68, 68, 0.15);
+            color: #F87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .badge-pred-warn {
+            background: rgba(245, 158, 11, 0.15);
+            color: #FBBF24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .badge-pred-safe {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34D399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        /* Modal Dark Theme */
+        .modal-content.custom-dark-modal {
+            background-color: #0D1527;
+            border: 1px solid #1E3A66;
+            color: #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.82rem;
+        }
+
+        .modal-header.custom-dark-header {
+            border-bottom: 1px solid #1E2D4A;
+            padding: 12px 16px;
+        }
+
+        .modal-footer.custom-dark-footer {
+            border-top: 1px solid #1E2D4A;
+            padding: 10px 16px;
+        }
+
+        .form-dark-input {
+            background-color: #070B14;
+            border: 1px solid #1E2D4A;
+            color: #fff;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.82rem;
+            width: 100%;
+        }
+
+        .form-dark-input:focus {
+            outline: none;
+            border-color: #00E5FF;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.15);
+        }
+
+        /* ----------------------------------------------------
+           RESPONSIVE MEDIA QUERIES FOR ALL SCREEN SIZES
+           ---------------------------------------------------- */
+        @media (max-width: 991.98px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .admin-sidebar.show {
+                transform: translateX(0);
+            }
+
+            .admin-main-container {
+                margin-left: 0;
+                width: 100%;
+                padding: 16px;
+            }
+
+            .btn-toggle-sidebar {
+                display: inline-flex;
+            }
+
+            .btn-close-sidebar {
+                display: block;
+            }
+
+            .sidebar-backdrop.show {
+                display: block;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-header-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .header-actions-box {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .tabs-nav-bar {
+                gap: 4px;
+            }
+
+            .tab-btn {
+                padding: 6px 10px;
+                font-size: 0.76rem;
+            }
+
+            .add-action-strip {
+                padding: 8px 12px;
+            }
+
+            .dark-data-table th,
+            .dark-data-table td {
+                padding: 9px 10px;
+                font-size: 0.76rem;
+            }
+
+            .item-email {
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Sidebar Start -->
-    <div class="admin-sidebar">
-        <a href="{{ url_for('admin_dashboard') }}" class="sidebar-brand">
-            <i class="fas fa-shield-alt"></i>
-            <span>PhishGuard<span style="color: var(--accent-cyan);">.AI</span></span>
-        </a>
+    <!-- Backdrop for mobile sidebar -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
 
-        <ul class="sidebar-menu">
-            <li class="menu-header">Overview</li>
-            <li class="nav-item-admin">
-                <a href="{{ url_for('admin_dashboard', tab='dashboard') }}" class="nav-link-admin {% if active_tab == 'dashboard' %}active{% endif %}">
+    <!-- LEFT SIDEBAR -->
+    <div class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-brand-box">
+            <a href="{{ url_for('admin_dashboard') }}" class="sidebar-brand-content text-decoration-none text-white">
+                <i class="fas fa-shield-alt"></i>
+                <span>PhishGuard<span style="color: var(--accent-cyan);">.AI</span></span>
+            </a>
+            <button class="btn-close-sidebar" onclick="toggleSidebar(false)">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="sidebar-menu-list">
+            <li class="sidebar-label">Navigation</li>
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('admin_dashboard', tab='dashboard') }}" class="sidebar-nav-link {% if active_tab == 'dashboard' or not active_tab %}active{% endif %}">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-
-            <li class="menu-header">Management</li>
-            <li class="nav-item-admin">
-                <a href="{{ url_for('admin_users') }}" class="nav-link-admin {% if active_tab == 'users' %}active{% endif %}">
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('admin_dashboard', tab='users') }}" class="sidebar-nav-link {% if active_tab == 'users' %}active{% endif %}">
                     <i class="fas fa-users-cog"></i>
-                    <span>Users Management</span>
+                    <span>Users</span>
                 </a>
             </li>
-            <li class="nav-item-admin">
-                <a href="{{ url_for('admin_results') }}" class="nav-link-admin {% if active_tab == 'results' %}active{% endif %}">
-                    <i class="fas fa-poll"></i>
-                    <span>Result Management</span>
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('admin_dashboard', tab='predictions') }}" class="sidebar-nav-link {% if active_tab == 'predictions' %}active{% endif %}">
+                    <i class="fas fa-shield-virus"></i>
+                    <span>Predictions</span>
+                </a>
+            </li>
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('admin_dashboard', tab='enquiries') }}" class="sidebar-nav-link {% if active_tab == 'enquiries' %}active{% endif %}">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Enquiries</span>
+                </a>
+            </li>
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('admin_dashboard', tab='contacts') }}" class="sidebar-nav-link {% if active_tab == 'contacts' %}active{% endif %}">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contacts</span>
                 </a>
             </li>
 
-            <li class="menu-header">Quick Links</li>
-            <li class="nav-item-admin">
-                <a href="{{ url_for('result') }}" class="nav-link-admin" target="_blank">
+            <li class="sidebar-label mt-3">Shortcuts</li>
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('result') }}" class="sidebar-nav-link" target="_blank">
                     <i class="fas fa-search"></i>
-                    <span>Scan Engine (Public)</span>
+                    <span>Scan Engine</span>
                 </a>
             </li>
-            <li class="nav-item-admin">
-                <a href="{{ url_for('index') }}" class="nav-link-admin" target="_blank">
+            <li class="sidebar-link-item">
+                <a href="{{ url_for('index') }}" class="sidebar-nav-link" target="_blank">
                     <i class="fas fa-external-link-alt"></i>
-                    <span>Front Website</span>
+                    <span>Public Home</span>
                 </a>
             </li>
         </ul>
 
-        <div class="sidebar-footer">
-            <div class="admin-profile mb-2">
-                <div class="admin-avatar">
-                    {{ session.get('admin_name', 'A')[0]|upper }}
-                </div>
-                <div class="overflow-hidden">
-                    <div class="fw-bold text-white text-truncate">{{ session.get('admin_name', 'Administrator') }}</div>
-                    <small class="text-success"><i class="fas fa-circle me-1" style="font-size: 8px;"></i>Super Admin</small>
+        <div class="sidebar-bottom-profile">
+            <div class="admin-user-pill-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="admin-avatar-circle">
+                        {{ session.get('admin_name', 'A')[0]|upper }}
+                    </div>
+                    <div>
+                        <div class="fw-bold text-white" style="font-size: 0.8rem;">{{ session.get('admin_name', 'admin') }}</div>
+                        <small class="text-success" style="font-size: 0.68rem;"><i class="fas fa-circle me-1" style="font-size: 6px;"></i>Super Admin</small>
+                    </div>
                 </div>
             </div>
-            <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger w-100 btn-sm d-flex align-items-center justify-content-center gap-2">
+            <a href="{{ url_for('admin_logout') }}" class="btn-header-logout w-100 d-flex align-items-center justify-content-center gap-1">
                 <i class="fas fa-sign-out-alt"></i> Logout Admin
             </a>
         </div>
     </div>
-    <!-- Sidebar End -->
 
-    <!-- Main Content Start -->
-    <div class="admin-content">
+    <!-- MAIN RIGHT CONTENT -->
+    <div class="admin-main-container">
 
-        <!-- Top Header -->
-        <div class="dashboard-header">
-            <div class="dashboard-title">
-                <h2>Admin Control Center</h2>
-                <p>Dark Theme Cyber Threat Operations & Full CRUD Operations</p>
+        <!-- Top Header Bar -->
+        <div class="admin-header-bar">
+            <div class="d-flex align-items-center">
+                <button class="btn-toggle-sidebar" onclick="toggleSidebar(true)" title="Toggle Navigation Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title-box">
+                    <h4>PhishGuard.AI <small style="font-size: 0.8rem; color: #64748B; font-weight: 500;">/ Admin Portal</small></h4>
+                    <p>Welcome, {{ session.get('admin_name', 'Admin') }}</p>
+                </div>
             </div>
-            <div class="header-actions">
-                <a href="{{ url_for('admin_users') }}" class="btn btn-outline-dark-custom">
-                    <i class="fas fa-user-plus text-info"></i> Manage Users
+
+            <div class="header-actions-box">
+                <a href="{{ url_for('index') }}" class="btn-header-site" target="_blank">
+                    <i class="fas fa-globe me-1"></i> Public Site
                 </a>
-                <a href="{{ url_for('admin_results') }}" class="btn btn-cyan">
-                    <i class="fas fa-plus-circle"></i> Add Scan Result
+                <a href="{{ url_for('admin_logout') }}" class="btn-header-logout">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
                 </a>
             </div>
         </div>
@@ -612,180 +784,447 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert" style="background: rgba({{ '16, 185, 129, 0.2' if category == 'success' else '239, 68, 68, 0.2' }}); border-color: {{ '#10B981' if category == 'success' else '#EF4444' }}; color: #fff;">
+                    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show p-2 px-3 mb-3" role="alert" style="background: rgba({{ '16, 185, 129, 0.15' if category == 'success' else '239, 68, 68, 0.15' }}); border-color: {{ '#10B981' if category == 'success' else '#EF4444' }}; color: #fff; font-size: 0.8rem;">
                         <i class="fas {{ 'fa-check-circle' if category == 'success' else 'fa-exclamation-triangle' }} me-2"></i>
                         {{ message }}
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" style="padding: 0.6rem;"></button>
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
 
-        <!-- Metrics Overview Cards -->
-        <div class="row g-4 mb-4">
-            <div class="col-xl-3 col-sm-6">
-                <div class="stat-card">
-                    <div>
-                        <p class="stat-label">Total Users</p>
-                        <h3 class="stat-value">{{ total_users }}</h3>
-                    </div>
-                    <div class="stat-icon cyan">
-                        <i class="fas fa-users"></i>
-                    </div>
+        <!-- Stat Boxes Row -->
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-icon-wrap" style="color: #60A5FA;">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_users }}</div>
+                    <div class="stat-title">Total Users</div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-sm-6">
-                <div class="stat-card">
-                    <div>
-                        <p class="stat-label">Total Scan Records</p>
-                        <h3 class="stat-value">{{ total_results }}</h3>
-                    </div>
-                    <div class="stat-icon blue">
-                        <i class="fas fa-shield-virus"></i>
-                    </div>
+            <div class="stat-box">
+                <div class="stat-icon-wrap" style="color: #34D399;">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ total_predictions }}</div>
+                    <div class="stat-title">Predictions</div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-sm-6">
-                <div class="stat-card">
-                    <div>
-                        <p class="stat-label">Phishing Threats Flagged</p>
-                        <h3 class="stat-value text-danger">{{ phishing_count }}</h3>
-                    </div>
-                    <div class="stat-icon red">
-                        <i class="fas fa-skull-crossbones"></i>
-                    </div>
+            <div class="stat-box">
+                <div class="stat-icon-wrap" style="color: #F87171;">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ phishing_count }}</div>
+                    <div class="stat-title">Threat Alerts</div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-sm-6">
-                <div class="stat-card">
-                    <div>
-                        <p class="stat-label">Safe Domains Verified</p>
-                        <h3 class="stat-value text-success">{{ safe_count }}</h3>
-                    </div>
-                    <div class="stat-icon green">
-                        <i class="fas fa-check-double"></i>
-                    </div>
+            <div class="stat-box">
+                <div class="stat-icon-wrap" style="color: #FBBF24;">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
-            </div>
-        </div>
-
-        <!-- Quick Access Tables for Overview -->
-        <div class="row g-4">
-            <!-- Recent Users -->
-            <div class="col-lg-6">
-                <div class="table-card">
-                    <div class="table-card-header">
-                        <h3 class="table-title">
-                            <i class="fas fa-user-friends text-info"></i> Recent Registered Users
-                        </h3>
-                        <a href="{{ url_for('admin_users') }}" class="btn btn-outline-dark-custom btn-sm">
-                            View All Users ({{ total_users }}) <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table-dark-custom">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if recent_users %}
-                                    {% for u in recent_users %}
-                                        <tr>
-                                            <td><span class="text-muted">#{{ u.user_id }}</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="admin-avatar" style="width: 28px; height: 28px; font-size: 0.8rem;">
-                                                        {{ u.name[0]|upper }}
-                                                    </div>
-                                                    <span class="fw-bold">{{ u.name }}</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="{{ url_for('admin_users') }}" class="btn-action-edit text-decoration-none">
-                                                    <i class="fas fa-pen"></i> Edit
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
-                                    <tr>
-                                        <td colspan="3" class="text-center text-muted py-4">No users found.</td>
-                                    </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="stat-info">
+                    <div class="stat-number">{{ safe_count }}</div>
+                    <div class="stat-title">Verified Safe</div>
                 </div>
             </div>
 
-            <!-- Recent Scan Results -->
-            <div class="col-lg-6">
-                <div class="table-card">
-                    <div class="table-card-header">
-                        <h3 class="table-title">
-                            <i class="fas fa-history text-warning"></i> Recent Scan Results
-                        </h3>
-                        <a href="{{ url_for('admin_results') }}" class="btn btn-outline-dark-custom btn-sm">
-                            View All Results ({{ total_results }}) <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table-dark-custom">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>User</th>
-                                    <th>Verdict / Result</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if recent_results %}
-                                    {% for r in recent_results %}
-                                        <tr>
-                                            <td><span class="text-muted">#{{ r.id }}</span></td>
-                                            <td>
-                                                <span class="badge bg-secondary text-light">{{ r.user_name or 'User #' ~ r.user_id }}</span>
-                                            </td>
-                                            <td>
-                                                <div class="text-truncate" style="max-width: 260px;" title="{{ r.result }}">
-                                                    {% if 'Phishing' in r.result or 'Risk' in r.result %}
-                                                        <span class="badge-threat-high"><i class="fas fa-exclamation-circle"></i> Phishing</span>
-                                                    {% elif 'Suspicious' in r.result %}
-                                                        <span class="badge-threat-warn"><i class="fas fa-exclamation-triangle"></i> Suspicious</span>
-                                                    {% else %}
-                                                        <span class="badge-threat-safe"><i class="fas fa-check-circle"></i> Safe</span>
-                                                    {% endif %}
-                                                    <small class="text-muted ms-1">{{ r.result }}</small>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
-                                    <tr>
-                                        <td colspan="3" class="text-center text-muted py-4">No scan results recorded yet.</td>
-                                    </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="stat-box">
+                <div class="stat-icon-wrap" style="color: #A78BFA;">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number">4</div>
+                    <div class="stat-title">System Modules</div>
                 </div>
             </div>
         </div>
+
+        <!-- Horizontal Tabs Navigation Bar -->
+        <div class="tabs-nav-bar">
+            <a href="{{ url_for('admin_dashboard', tab='predictions') }}" class="tab-btn {% if active_tab == 'predictions' %}active{% endif %}">
+                <span>🏠 Predictions</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard', tab='users') }}" class="tab-btn {% if active_tab == 'users' or not active_tab or active_tab == 'dashboard' %}active{% endif %}">
+                <span>👥 Users</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard', tab='enquiries') }}" class="tab-btn {% if active_tab == 'enquiries' %}active{% endif %}">
+                <span>🏡 Enquiries</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard', tab='contacts') }}" class="tab-btn {% if active_tab == 'contacts' %}active{% endif %}">
+                <span>📬 Contacts</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard', tab='about') }}" class="tab-btn {% if active_tab == 'about' %}active{% endif %}">
+                <span>📝 About</span>
+            </a>
+        </div>
+
+        <!-- TAB CONTENT: USERS (Default / Dashboard) -->
+        {% if active_tab == 'users' or not active_tab or active_tab == 'dashboard' %}
+            <!-- Add Action Strip -->
+            <div class="add-action-strip">
+                <button class="btn-add-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                    <i class="fas fa-plus"></i> Add New User
+                </button>
+                <div class="strip-right-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="content-table-card table-responsive">
+                <table class="dark-data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">#</th>
+                            <th style="width: 220px;">USERNAME</th>
+                            <th>EMAIL</th>
+                            <th style="width: 170px;" class="text-end">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if users %}
+                            {% for u in users %}
+                                <tr>
+                                    <td><span class="id-badge">{{ u.user_id }}</span></td>
+                                    <td>
+                                        <span class="item-name">{{ u.name }}</span>
+                                        {% if u.name == 'admin' %}
+                                            <span class="badge bg-warning text-dark ms-1" style="font-size: 0.65rem;">Admin</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><span class="item-email">{{ u.email or (u.name|lower ~ '@gmail.com') }}</span></td>
+                                    <td class="text-end">
+                                        <button class="btn-act-edit" title="Edit User" onclick="openEditUserModal('{{ u.user_id }}', '{{ u.name|escape }}', '{{ u.email or (u.name|lower ~ '@gmail.com') }}')">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                        <button class="btn-act-del" title="Delete User" onclick="openDeleteUserModal('{{ u.user_id }}', '{{ u.name|escape }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">No users found. Click "+ Add New User" to create one.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <!-- TAB CONTENT: PREDICTIONS -->
+        {% if active_tab == 'predictions' %}
+            <div class="add-action-strip">
+                <button class="btn-add-primary" data-bs-toggle="modal" data-bs-target="#addResultModal">
+                    <i class="fas fa-plus"></i> Add New Prediction / Result
+                </button>
+                <div class="strip-right-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+
+            <div class="content-table-card table-responsive">
+                <table class="dark-data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">#</th>
+                            <th style="width: 160px;">USER</th>
+                            <th style="width: 140px;">STATUS</th>
+                            <th>SCAN RESULT / URL DETAILS</th>
+                            <th style="width: 170px;" class="text-end">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if predictions %}
+                            {% for p in predictions %}
+                                <tr>
+                                    <td><span class="id-badge">{{ p.id }}</span></td>
+                                    <td><span class="item-name">{{ p.user_name or 'User #' ~ p.user_id }}</span></td>
+                                    <td>
+                                        {% if 'Phishing' in p.result or 'Risk' in p.result %}
+                                            <span class="badge-pred-threat"><i class="fas fa-skull me-1"></i> Phishing</span>
+                                        {% elif 'Suspicious' in p.result %}
+                                            <span class="badge-pred-warn"><i class="fas fa-exclamation-triangle me-1"></i> Suspicious</span>
+                                        {% else %}
+                                            <span class="badge-pred-safe"><i class="fas fa-check-circle me-1"></i> Safe</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><span class="text-light">{{ p.result }}</span></td>
+                                    <td class="text-end">
+                                        <button class="btn-act-edit" title="Edit Prediction" onclick="openEditResultModal('{{ p.id }}', '{{ p.user_id }}', '{{ p.result|replace('\n', ' ')|replace('\'', '\\\'')|escape }}')">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                        <button class="btn-act-del" title="Delete Prediction" onclick="openDeleteResultModal('{{ p.id }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No prediction records available.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <!-- TAB CONTENT: ENQUIRIES -->
+        {% if active_tab == 'enquiries' %}
+            <div class="content-table-card p-4 text-center text-muted">
+                <i class="fas fa-inbox fa-3x mb-3 text-secondary"></i>
+                <h5>User Security Enquiries</h5>
+                <p class="small mb-0">Total active enquiries logged: {{ safe_count }} verified domain inquiries.</p>
+            </div>
+        {% endif %}
+
+        <!-- TAB CONTENT: CONTACTS -->
+        {% if active_tab == 'contacts' %}
+            <div class="content-table-card p-4 text-center text-muted">
+                <i class="fas fa-envelope fa-3x mb-3 text-secondary"></i>
+                <h5>Contact Inquiries</h5>
+                <p class="small mb-0">All submitted contact feedback is synchronized with the admin alert system.</p>
+            </div>
+        {% endif %}
+
+        <!-- TAB CONTENT: ABOUT -->
+        {% if active_tab == 'about' %}
+            <div class="content-table-card p-4 text-center text-muted">
+                <i class="fas fa-info-circle fa-3x mb-3 text-secondary"></i>
+                <h5>PhishGuard.AI Control Center v2.0</h5>
+                <p class="small mb-0">AI Phishing & Scam Detection Engine - Full administrative CRUD configuration.</p>
+            </div>
+        {% endif %}
 
     </div>
-    <!-- Main Content End -->
 
-    <!-- Bootstrap Bundle JS -->
+    <!-- MODAL: ADD USER -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-dark-modal">
+                <div class="modal-header custom-dark-header">
+                    <h6 class="modal-title fw-bold text-white"><i class="fas fa-user-plus text-info me-2"></i>Add New User</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ url_for('admin_user_create') }}">
+                    <div class="modal-body p-3">
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Username *</label>
+                            <input type="text" name="name" class="form-dark-input" placeholder="e.g. Rahul" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Email Address</label>
+                            <input type="email" name="email" class="form-dark-input" placeholder="e.g. rahul@gmail.com">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Password *</label>
+                            <input type="password" name="password" class="form-dark-input" placeholder="Minimum 6 characters" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer custom-dark-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-info btn-sm text-dark fw-bold">Save User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT USER -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-dark-modal">
+                <div class="modal-header custom-dark-header">
+                    <h6 class="modal-title fw-bold text-white"><i class="fas fa-user-edit text-warning me-2"></i>Edit User</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" id="editUserForm" action="">
+                    <div class="modal-body p-3">
+                        <input type="hidden" id="editUserId" name="user_id">
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Username *</label>
+                            <input type="text" id="editUserName" name="name" class="form-dark-input" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Email Address</label>
+                            <input type="email" id="editUserEmail" name="email" class="form-dark-input">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">New Password (leave blank to keep current)</label>
+                            <input type="password" name="password" class="form-dark-input" placeholder="Optional new password">
+                        </div>
+                    </div>
+                    <div class="modal-footer custom-dark-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning btn-sm text-dark fw-bold">Update User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DELETE USER -->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-dark-modal">
+                <div class="modal-header custom-dark-header">
+                    <h6 class="modal-title fw-bold text-danger"><i class="fas fa-trash-alt me-2"></i>Delete User</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3 text-center">
+                    <p class="mb-1 text-white">Are you sure you want to delete user <span id="deleteUserNameDisplay" class="text-warning fw-bold"></span>?</p>
+                    <p class="small text-muted mb-0">All linked predictions will also be deleted.</p>
+                </div>
+                <div class="modal-footer custom-dark-footer">
+                    <form method="POST" id="deleteUserForm" action="">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD RESULT -->
+    <div class="modal fade" id="addResultModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-dark-modal">
+                <div class="modal-header custom-dark-header">
+                    <h6 class="modal-title fw-bold text-white"><i class="fas fa-plus-circle text-info me-2"></i>Add Scan Prediction</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ url_for('admin_result_create') }}">
+                    <div class="modal-body p-3">
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">User *</label>
+                            <select name="user_id" class="form-dark-input" required>
+                                {% for u in users %}
+                                    <option value="{{ u.user_id }}">{{ u.name }} (ID #{{ u.user_id }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Verdict / URL Text *</label>
+                            <textarea name="result" rows="3" class="form-dark-input" placeholder="e.g. Phishing Detected - High Risk! Mimics banking login" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer custom-dark-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-info btn-sm text-dark fw-bold">Save Prediction</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT RESULT -->
+    <div class="modal fade" id="editResultModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-dark-modal">
+                <div class="modal-header custom-dark-header">
+                    <h6 class="modal-title fw-bold text-white"><i class="fas fa-edit text-warning me-2"></i>Edit Prediction</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" id="editResultForm" action="">
+                    <div class="modal-body p-3">
+                        <input type="hidden" id="editResultId" name="result_id">
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">User *</label>
+                            <select id="editResultUserId" name="user_id" class="form-dark-input" required>
+                                {% for u in users %}
+                                    <option value="{{ u.user_id }}">{{ u.name }} (ID #{{ u.user_id }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Verdict Text *</label>
+                            <textarea id="editResultText" name="result" rows="3" class="form-dark-input" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer custom-dark-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning btn-sm text-dark fw-bold">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DELETE RESULT -->
+    <div class="modal fade" id="deleteResultModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-dark-modal">
+                <div class="modal-header custom-dark-header">
+                    <h6 class="modal-title fw-bold text-danger"><i class="fas fa-trash-alt me-2"></i>Delete Prediction</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3 text-center">
+                    <p class="mb-0 text-white">Are you sure you want to delete prediction <span id="deleteResultIdDisplay" class="text-warning fw-bold"></span>?</p>
+                </div>
+                <div class="modal-footer custom-dark-footer">
+                    <form method="POST" id="deleteResultForm" action="">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar(show) {
+            var sidebar = document.getElementById('adminSidebar');
+            var backdrop = document.getElementById('sidebarBackdrop');
+            if (show) {
+                sidebar.classList.add('show');
+                backdrop.classList.add('show');
+            } else {
+                sidebar.classList.remove('show');
+                backdrop.classList.remove('show');
+            }
+        }
+
+        function openEditUserModal(id, name, email) {
+            document.getElementById('editUserId').value = id;
+            document.getElementById('editUserName').value = name;
+            document.getElementById('editUserEmail').value = email || '';
+            document.getElementById('editUserForm').action = "/admin/users/update/" + id;
+            var modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+            modal.show();
+        }
+
+        function openDeleteUserModal(id, name) {
+            document.getElementById('deleteUserNameDisplay').textContent = '"' + name + '"';
+            document.getElementById('deleteUserForm').action = "/admin/users/delete/" + id;
+            var modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+            modal.show();
+        }
+
+        function openEditResultModal(id, userId, resultText) {
+            document.getElementById('editResultId').value = id;
+            document.getElementById('editResultUserId').value = userId;
+            document.getElementById('editResultText').value = resultText;
+            document.getElementById('editResultForm').action = "/admin/results/update/" + id;
+            var modal = new bootstrap.Modal(document.getElementById('editResultModal'));
+            modal.show();
+        }
+
+        function openDeleteResultModal(id) {
+            document.getElementById('deleteResultIdDisplay').textContent = '#' + id;
+            document.getElementById('deleteResultForm').action = "/admin/results/delete/" + id;
+            var modal = new bootstrap.Modal(document.getElementById('deleteResultModal'));
+            modal.show();
+        }
+    </script>
 </body>
 </html>
-

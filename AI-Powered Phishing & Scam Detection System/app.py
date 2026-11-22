@@ -317,11 +317,12 @@ def admin_logout():
 
 
 # --------------------------------------------------
-# Admin Dashboard (Dark Theme Overview)
+# Admin Dashboard (Dark Theme Unified Overview)
 # --------------------------------------------------
 @app.route("/admin/dashboard")
 @admin_required
 def admin_dashboard():
+    active_tab = request.args.get("tab", "users").lower()
     conn = None
     cursor = None
     try:
@@ -333,7 +334,7 @@ def admin_dashboard():
         total_users = cursor.fetchone()["total"]
 
         cursor.execute("SELECT COUNT(*) AS total FROM history")
-        total_results = cursor.fetchone()["total"]
+        total_predictions = cursor.fetchone()["total"]
 
         cursor.execute("SELECT COUNT(*) AS cnt FROM history WHERE result LIKE %s OR result LIKE %s", ('%Phishing%', '%Risk%'))
         phishing_count = cursor.fetchone()["cnt"]
@@ -341,42 +342,41 @@ def admin_dashboard():
         cursor.execute("SELECT COUNT(*) AS cnt FROM history WHERE result LIKE %s", ('%Safe%',))
         safe_count = cursor.fetchone()["cnt"]
 
-        # Recent users
-        cursor.execute("SELECT user_id, name FROM users ORDER BY user_id DESC LIMIT 5")
-        recent_users = cursor.fetchall()
+        # Fetch all users
+        cursor.execute("SELECT user_id, name, email FROM users ORDER BY user_id DESC")
+        users = cursor.fetchall()
 
-        # Recent results with user details
+        # Fetch all predictions/history records
         cursor.execute("""
-            SELECT h.id, h.user_id, h.result, h.created_at, u.name AS user_name
+            SELECT h.id, h.user_id, h.result, h.created_at, u.name AS user_name, u.email AS user_email
             FROM history h
             LEFT JOIN users u ON h.user_id = u.user_id
             ORDER BY h.id DESC
-            LIMIT 5
         """)
-        recent_results = cursor.fetchall()
+        predictions = cursor.fetchall()
 
         return render_template(
             "admin_dashboard.html",
-            active_tab="dashboard",
+            active_tab=active_tab,
             total_users=total_users,
-            total_results=total_results,
+            total_predictions=total_predictions,
             phishing_count=phishing_count,
             safe_count=safe_count,
-            recent_users=recent_users,
-            recent_results=recent_results
+            users=users,
+            predictions=predictions
         )
     except Exception:
         app.logger.exception("Failed to load admin dashboard")
         flash("Error loading dashboard metrics.", "danger")
         return render_template(
             "admin_dashboard.html",
-            active_tab="dashboard",
+            active_tab="users",
             total_users=0,
-            total_results=0,
+            total_predictions=0,
             phishing_count=0,
             safe_count=0,
-            recent_users=[],
-            recent_results=[]
+            users=[],
+            predictions=[]
         )
     finally:
         if cursor:
@@ -430,11 +430,15 @@ def admin_users():
 @admin_required
 def admin_user_create():
     name = request.form.get("name", "").strip()
+    email = request.form.get("email", "").strip()
     password = request.form.get("password", "").strip()
 
     if not name or not password:
         flash("Username and password are required.", "danger")
-        return redirect(url_for("admin_users"))
+        return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
+
+    if not email:
+        email = f"{name.lower().replace(' ', '')}@gmail.com"
 
     conn = None
     cursor = None
@@ -446,12 +450,12 @@ def admin_user_create():
         cursor.execute("SELECT user_id FROM users WHERE name = %s", (name,))
         if cursor.fetchone():
             flash(f"User '{name}' already exists.", "danger")
-            return redirect(url_for("admin_users"))
+            return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
 
         hashed = generate_password_hash(password)
         cursor.execute(
-            "INSERT INTO users (name, password) VALUES (%s, %s)",
-            (name, hashed)
+            "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+            (name, email, hashed)
         )
         conn.commit()
         flash(f"User '{name}' created successfully!", "success")
@@ -466,7 +470,7 @@ def admin_user_create():
         if conn:
             conn.close()
 
-    return redirect(url_for("admin_users"))
+    return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
 
 
 # --------------------------------------------------
@@ -476,11 +480,12 @@ def admin_user_create():
 @admin_required
 def admin_user_update(user_id):
     name = request.form.get("name", "").strip()
+    email = request.form.get("email", "").strip()
     password = request.form.get("password", "").strip()
 
     if not name:
         flash("Username cannot be empty.", "danger")
-        return redirect(url_for("admin_users"))
+        return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
 
     conn = None
     cursor = None
@@ -492,21 +497,21 @@ def admin_user_update(user_id):
         cursor.execute("SELECT user_id FROM users WHERE name = %s AND user_id != %s", (name, user_id))
         if cursor.fetchone():
             flash(f"Username '{name}' is already taken by another account.", "danger")
-            return redirect(url_for("admin_users"))
+            return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
 
         if password:
             hashed = generate_password_hash(password)
             cursor.execute(
-                "UPDATE users SET name = %s, password = %s WHERE user_id = %s",
-                (name, hashed, user_id)
+                "UPDATE users SET name = %s, email = %s, password = %s WHERE user_id = %s",
+                (name, email, hashed, user_id)
             )
         else:
             cursor.execute(
-                "UPDATE users SET name = %s WHERE user_id = %s",
-                (name, user_id)
+                "UPDATE users SET name = %s, email = %s WHERE user_id = %s",
+                (name, email, user_id)
             )
         conn.commit()
-        flash(f"User ID #{user_id} updated successfully!", "success")
+        flash(f"User #{user_id} updated successfully!", "success")
     except Exception:
         if conn:
             conn.rollback()
@@ -518,7 +523,7 @@ def admin_user_update(user_id):
         if conn:
             conn.close()
 
-    return redirect(url_for("admin_users"))
+    return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
 
 
 # --------------------------------------------------
@@ -533,11 +538,10 @@ def admin_user_delete(user_id):
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Delete dependent history first (or CASCADE)
         cursor.execute("DELETE FROM history WHERE user_id = %s", (user_id,))
         cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
         conn.commit()
-        flash(f"User ID #{user_id} and associated scan history deleted successfully.", "success")
+        flash(f"User #{user_id} deleted successfully.", "success")
     except Exception:
         if conn:
             conn.rollback()
@@ -549,7 +553,7 @@ def admin_user_delete(user_id):
         if conn:
             conn.close()
 
-    return redirect(url_for("admin_users"))
+    return redirect(request.referrer or url_for("admin_dashboard", tab="users"))
 
 
 # --------------------------------------------------

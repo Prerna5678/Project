@@ -1,4 +1,3 @@
-
 from flask import (
     Flask, flash, redirect, render_template,
     request, session, url_for
@@ -322,7 +321,7 @@ def admin_logout():
 @app.route("/admin/dashboard")
 @admin_required
 def admin_dashboard():
-    active_tab = request.args.get("tab", "users").lower()
+    active_tab = request.args.get("tab", "dashboard").lower()
     conn = None
     cursor = None
     try:
@@ -342,18 +341,25 @@ def admin_dashboard():
         cursor.execute("SELECT COUNT(*) AS cnt FROM history WHERE result LIKE %s", ('%Safe%',))
         safe_count = cursor.fetchone()["cnt"]
 
-        # Fetch all users
-        cursor.execute("SELECT user_id, name, email FROM users ORDER BY user_id DESC")
-        users = cursor.fetchall()
+        # Fetch all users (select available fields safely)
+        try:
+            cursor.execute("SELECT user_id, name, email FROM users ORDER BY user_id DESC")
+            users = cursor.fetchall()
+        except Exception:
+            cursor.execute("SELECT user_id, name FROM users ORDER BY user_id DESC")
+            users = cursor.fetchall()
 
-        # Fetch all predictions/history records
-        cursor.execute("""
-            SELECT h.id, h.user_id, h.result, h.created_at, u.name AS user_name, u.email AS user_email
-            FROM history h
-            LEFT JOIN users u ON h.user_id = u.user_id
-            ORDER BY h.id DESC
-        """)
-        predictions = cursor.fetchall()
+        # Fetch all predictions/history records safely
+        try:
+            cursor.execute("""
+                SELECT h.id, h.user_id, h.result, h.created_at, u.name AS user_name
+                FROM history h
+                LEFT JOIN users u ON h.user_id = u.user_id
+                ORDER BY h.id DESC
+            """)
+            predictions = cursor.fetchall()
+        except Exception:
+            predictions = []
 
         return render_template(
             "admin_dashboard.html",

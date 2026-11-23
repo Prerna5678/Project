@@ -704,15 +704,9 @@
                 </a>
             </li>
             <li class="sidebar-link-item">
-                <a href="{{ url_for('admin_dashboard', tab='predictions') }}" class="sidebar-nav-link {% if active_tab == 'predictions' %}active{% endif %}">
-                    <i class="fas fa-shield-virus"></i>
-                    <span>Predictions</span>
-                </a>
-            </li>
-            <li class="sidebar-link-item">
-                <a href="{{ url_for('admin_dashboard', tab='enquiries') }}" class="sidebar-nav-link {% if active_tab == 'enquiries' %}active{% endif %}">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Enquiries</span>
+                <a href="{{ url_for('admin_dashboard', tab='results') }}" class="sidebar-nav-link {% if active_tab == 'results' %}active{% endif %}">
+                    <i class="fas fa-poll"></i>
+                    <span>Results</span>
                 </a>
             </li>
             <li class="sidebar-link-item">
@@ -806,16 +800,6 @@
             </div>
 
             <div class="stat-box">
-                <div class="stat-icon-wrap" style="color: #34D399;">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="stat-info">
-                    <div class="stat-number">{{ total_predictions }}</div>
-                    <div class="stat-title">Predictions</div>
-                </div>
-            </div>
-
-            <div class="stat-box">
                 <div class="stat-icon-wrap" style="color: #F87171;">
                     <i class="fas fa-envelope-open-text"></i>
                 </div>
@@ -840,7 +824,7 @@
                     <i class="fas fa-file-alt"></i>
                 </div>
                 <div class="stat-info">
-                    <div class="stat-number">4</div>
+                    <div class="stat-number">3</div>
                     <div class="stat-title">System Modules</div>
                 </div>
             </div>
@@ -848,14 +832,14 @@
 
         <!-- Horizontal Tabs Navigation Bar -->
         <div class="tabs-nav-bar">
-            <a href="{{ url_for('admin_dashboard', tab='predictions') }}" class="tab-btn {% if active_tab == 'predictions' %}active{% endif %}">
-                <span>🏠 Predictions</span>
+            <a href="{{ url_for('admin_dashboard', tab='dashboard') }}" class="tab-btn {% if active_tab == 'dashboard' or not active_tab %}active{% endif %}">
+                <span>📊 Dashboard</span>
             </a>
-            <a href="{{ url_for('admin_dashboard', tab='users') }}" class="tab-btn {% if active_tab == 'users' or not active_tab or active_tab == 'dashboard' %}active{% endif %}">
+            <a href="{{ url_for('admin_dashboard', tab='users') }}" class="tab-btn {% if active_tab == 'users' %}active{% endif %}">
                 <span>👥 Users</span>
             </a>
-            <a href="{{ url_for('admin_dashboard', tab='enquiries') }}" class="tab-btn {% if active_tab == 'enquiries' %}active{% endif %}">
-                <span>🏡 Enquiries</span>
+            <a href="{{ url_for('admin_dashboard', tab='results') }}" class="tab-btn {% if active_tab == 'results' %}active{% endif %}">
+                <span>📋 Results</span>
             </a>
             <a href="{{ url_for('admin_dashboard', tab='contacts') }}" class="tab-btn {% if active_tab == 'contacts' %}active{% endif %}">
                 <span>📬 Contacts</span>
@@ -865,8 +849,85 @@
             </a>
         </div>
 
-        <!-- TAB CONTENT: USERS (Default / Dashboard) -->
-        {% if active_tab == 'users' or not active_tab or active_tab == 'dashboard' %}
+        <!-- TAB CONTENT: DASHBOARD (Overview with Recent Users & Scan Results) -->
+        {% if active_tab == 'dashboard' or not active_tab %}
+            <div class="row g-3 mb-4">
+                <!-- Recent Users Box -->
+                <div class="col-lg-6">
+                    <div class="content-table-card p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="m-0 text-white fw-bold"><i class="fas fa-users text-info me-2"></i>Recent Users</h6>
+                            <a href="{{ url_for('admin_dashboard', tab='users') }}" class="btn btn-outline-secondary btn-sm" style="font-size: 0.74rem;">View All</a>
+                        </div>
+                        <table class="dark-data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>USERNAME</th>
+                                    <th>EMAIL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if users %}
+                                    {% for u in users[:5] %}
+                                        <tr>
+                                            <td><span class="id-badge">{{ u.user_id }}</span></td>
+                                            <td><span class="item-name">{{ u.name }}</span></td>
+                                            <td><span class="item-email">{{ u.email or (u.name|lower ~ '@gmail.com') }}</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td colspan="3" class="text-center text-muted py-3">No users yet</td></tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Recent Scan Results Box -->
+                <div class="col-lg-6">
+                    <div class="content-table-card p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="m-0 text-white fw-bold"><i class="fas fa-poll text-warning me-2"></i>Recent Scan Results</h6>
+                            <a href="{{ url_for('admin_dashboard', tab='results') }}" class="btn btn-outline-secondary btn-sm" style="font-size: 0.74rem;">View All</a>
+                        </div>
+                        <table class="dark-data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>STATUS</th>
+                                    <th>DETAILS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if predictions %}
+                                    {% for p in predictions[:5] %}
+                                        <tr>
+                                            <td><span class="id-badge">{{ p.id }}</span></td>
+                                            <td>
+                                                {% if 'Phishing' in p.result or 'Risk' in p.result %}
+                                                    <span class="badge-pred-threat">Phishing</span>
+                                                {% elif 'Suspicious' in p.result %}
+                                                    <span class="badge-pred-warn">Suspicious</span>
+                                                {% else %}
+                                                    <span class="badge-pred-safe">Safe</span>
+                                                {% endif %}
+                                            </td>
+                                            <td><span class="text-light small text-truncate d-inline-block" style="max-width: 200px;">{{ p.result }}</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td colspan="3" class="text-center text-muted py-3">No scan results yet</td></tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- TAB CONTENT: USERS -->
+        {% if active_tab == 'users' %}
             <!-- Add Action Strip -->
             <div class="add-action-strip">
                 <button class="btn-add-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
@@ -920,11 +981,11 @@
             </div>
         {% endif %}
 
-        <!-- TAB CONTENT: PREDICTIONS -->
-        {% if active_tab == 'predictions' %}
+        <!-- TAB CONTENT: RESULTS -->
+        {% if active_tab == 'results' %}
             <div class="add-action-strip">
                 <button class="btn-add-primary" data-bs-toggle="modal" data-bs-target="#addResultModal">
-                    <i class="fas fa-plus"></i> Add New Prediction / Result
+                    <i class="fas fa-plus"></i> Add New Result
                 </button>
                 <div class="strip-right-icon">
                     <i class="fas fa-play"></i>
@@ -959,10 +1020,10 @@
                                     </td>
                                     <td><span class="text-light">{{ p.result }}</span></td>
                                     <td class="text-end">
-                                        <button class="btn-act-edit" title="Edit Prediction" onclick="openEditResultModal('{{ p.id }}', '{{ p.user_id }}', '{{ p.result|replace('\n', ' ')|replace('\'', '\\\'')|escape }}')">
+                                        <button class="btn-act-edit" title="Edit Result" onclick="openEditResultModal('{{ p.id }}', '{{ p.user_id }}', '{{ p.result|replace('\n', ' ')|replace('\'', '\\\'')|escape }}')">
                                             <i class="fas fa-pen"></i>
                                         </button>
-                                        <button class="btn-act-del" title="Delete Prediction" onclick="openDeleteResultModal('{{ p.id }}')">
+                                        <button class="btn-act-del" title="Delete Result" onclick="openDeleteResultModal('{{ p.id }}')">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </td>
@@ -970,7 +1031,7 @@
                             {% endfor %}
                         {% else %}
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">No prediction records available.</td>
+                                <td colspan="5" class="text-center text-muted py-4">No scan result records available.</td>
                             </tr>
                         {% endif %}
                     </tbody>

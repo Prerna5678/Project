@@ -239,8 +239,8 @@
         <div class="container pt-5 pb-5">
             <div class="row g-5 pt-3 align-items-center">
                 <div class="col-lg-7 align-self-center text-center text-lg-start mb-lg-5">
-                    <div class="btn btn-sm border rounded-pill text-white px-3 mb-3">
-                        <i class="fas fa-search me-1"></i> Real-time AI Inspection
+                    <div class="btn btn-sm border rounded-pill text-white px-3 mb-3 animated slideInRight">
+                        PhishGuard AI
                     </div>
                     <h1 class="display-4 text-white mb-3 animated slideInRight">
                         Phishing &amp; Scam Detection Engine
@@ -258,7 +258,7 @@
         </div>
     </div>
     <!-- Hero Header End -->
-
+<br><br>
     <!-- Interactive URL Scanner Section Start -->
     <div class="container pb-5">
         <div class="row justify-content-center">
@@ -267,14 +267,16 @@
                     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
                         <div>
                             <h4 class="fw-bold mb-1" style="color: #0A2A66;">
-                                <i class="fas fa-radar text-primary me-2"></i>Enter the suspicious URL / Link
+                                <i class="fas fa-radar text-primary me-0"></i>Enter the suspicious URL / Link
                             </h4>
-                            <p class="text-muted small mb-0">Enter a complete web address (e.g.,
-                                https://secure-bank-login.xyz/auth)</p>
+                            <p class="text-muted small mb-0">
+                                (e.g., https://secure-bank-login.xyz)</p>
                         </div>
+                        <!--
                         <span class="badge bg-light text-primary border px-3 py-2">
                             <i class="fas fa-microchip me-1"></i> Model: Gradient Boosted Heuristic
                         </span>
+                        -->
                     </div>
 
                     <!-- URL Input Form (Design / Live Scan) -->
@@ -282,14 +284,14 @@
                         <div class="url-input-box mb-2">
                             <i class="fas fa-globe"></i>
                             <input type="text" id="targetUrlInput" name="url" class="form-control"
-                                placeholder="https://example.com/login or paste unknown link"
+                                placeholder="https://example.com"
                                 value="{{ scanned_url if scanned_url else '' }}" required>
                             <button class="btn-scan" type="submit" id="scanBtn">
                                 <i class="fas fa-shield-alt"></i> <span>Scan Now</span>
                             </button>
                         </div>
 
-                        <!-- Sample URL quick pickers for easy interactive testing -->
+                        <!-- Sample URL quick pickers for easy interactive testing
                         <div class="pt-2">
                             <span class="small text-muted me-1 fw-bold">Test with sample links:</span>
                             <span class="sample-chip" onclick="setSampleUrl('https://google.com')">
@@ -305,7 +307,7 @@
                                 <i class="fas fa-skull-crossbones text-danger me-1"></i> apple-id-suspended.ru
                                 (Phishing)
                             </span>
-                        </div>
+                        </div>  -->
                     </form>
 
                     <!-- Scan Result Output Display -->
@@ -378,6 +380,8 @@
                             </div>
                         </div>
                         {% else %}
+
+                        
                         <!-- Default Interactive State (Live client preview / placeholder) -->
                         <div id="clientResultPreview" class="result-card-display result-safe mt-4"
                             style="display: none;">

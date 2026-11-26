@@ -709,12 +709,6 @@
                     <span>Results</span>
                 </a>
             </li>
-            <li class="sidebar-link-item">
-                <a href="{{ url_for('admin_dashboard', tab='contacts') }}" class="sidebar-nav-link {% if active_tab == 'contacts' %}active{% endif %}">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contacts</span>
-                </a>
-            </li>
 
             <li class="sidebar-label mt-3">Shortcuts</li>
             <li class="sidebar-link-item">
@@ -840,12 +834,6 @@
             </a>
             <a href="{{ url_for('admin_dashboard', tab='results') }}" class="tab-btn {% if active_tab == 'results' %}active{% endif %}">
                 <span>📋 Results</span>
-            </a>
-            <a href="{{ url_for('admin_dashboard', tab='contacts') }}" class="tab-btn {% if active_tab == 'contacts' %}active{% endif %}">
-                <span>📬 Contacts</span>
-            </a>
-            <a href="{{ url_for('admin_dashboard', tab='about') }}" class="tab-btn {% if active_tab == 'about' %}active{% endif %}">
-                <span>📝 About</span>
             </a>
         </div>
 
@@ -1045,15 +1033,6 @@
                 <i class="fas fa-inbox fa-3x mb-3 text-secondary"></i>
                 <h5>User Security Enquiries</h5>
                 <p class="small mb-0">Total active enquiries logged: {{ safe_count }} verified domain inquiries.</p>
-            </div>
-        {% endif %}
-
-        <!-- TAB CONTENT: CONTACTS -->
-        {% if active_tab == 'contacts' %}
-            <div class="content-table-card p-4 text-center text-muted">
-                <i class="fas fa-envelope fa-3x mb-3 text-secondary"></i>
-                <h5>Contact Inquiries</h5>
-                <p class="small mb-0">All submitted contact feedback is synchronized with the admin alert system.</p>
             </div>
         {% endif %}
 

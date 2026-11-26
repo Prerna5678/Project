@@ -65,27 +65,31 @@
     </div>
     <!-- Navbar End -->
 
-    <!-- Hero Start -->
+    <!-- Hero Header Start -->
     <div class="container-fluid pt-5 bg-primary hero-header">
-        <div class="container pt-5">
-            <div class="row g-5 pt-5">
-
-                <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
-                    <h1 class="display-4 text-white mb-4 animated slideInRight">
+        <div class="container pt-5 pb-5">
+            <div class="row g-5 pt-3 align-items-center">
+                <div class="col-lg-7 align-self-center text-center text-lg-start mb-lg-5">
+                    <div class="btn btn-sm border rounded-pill text-white px-3 mb-3 animated slideInRight">
+                        PhishGuard AI
+                    </div>
+                    <h1 class="display-4 text-white mb-3 animated slideInRight">
                         History Page
                     </h1>
+                    <p class="text-white-50 lead mb-4 animated slideInRight">
+                        The History page displays a record of previously completed activities, 
+                        allowing users to view past information, track previous actions, and easily access 
+                        their historical records whenever needed.
+                    </p>
                 </div>
-
-                <div class="col-lg-6 align-self-end text-center text-lg-end">
-                    <img class="img-fluid"
-                        src="{{ url_for('static', filename='img/hero-img.png') }}"
-                        alt="" style="max-height: 300px;">
+                <div class="col-lg-5 align-self-end text-center text-lg-end">
+                    <img class="img-fluid" src="{{ url_for('static', filename='img/hero-img.png') }}"
+                        alt="PhishGuard Scan" style="max-height: 280px;">
                 </div>
-
             </div>
         </div>
     </div>
-    <!-- Hero End -->
+    <!-- Hero Header End -->
 
     <!-- Case Start -->
     <div class="container-fluid py-5">
